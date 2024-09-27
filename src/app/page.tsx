@@ -1,9 +1,9 @@
-import Header from "@/components/Header";
 
 export default async function Home() {
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
+    <div className="min-h-screen bg-black w-full text-white p-12">
+      {/* <hr /> */}
+      heloe
     </div>
   );
 }
