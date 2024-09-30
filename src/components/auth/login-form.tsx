@@ -22,8 +22,7 @@ import FormResMessage from "./form-message";
 import FormFooter from "./form-footer";
 const SignInForm = () => {
   const router = useRouter();
-  const { loginUser, loader, alert } = useAuthContext();
-  console.log(alert.message, alert.type);
+  const { loginUser, loader, alert } = useAuthContext();  
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {

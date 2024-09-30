@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/authContext";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
+import { YoutubeApiContextProvider } from "@/context/youtubeApiContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,11 +33,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
+          <YoutubeApiContextProvider>
             <Header />
-          <div className="flex w-full">
+            <div className="flex w-full">
               <Sidebar />
-            <div className="w-full">{children}</div>
-          </div>
+              <div className="w-full">{children}</div>
+            </div>
+          </YoutubeApiContextProvider>
         </AuthProvider>
       </body>
     </html>

@@ -3,8 +3,12 @@
 import { menuItems } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import AuthButtons from "./auth-buttons";
+import { HiMiniXMark } from "react-icons/hi2";
+// import { useState } from "react";
 
 const Sidebar = () => {
+  // const [openSideBar, setOpenSideBar] = useState<boolean>(false)  
   const pathname = usePathname();
 
   if (
@@ -15,8 +19,11 @@ const Sidebar = () => {
     return null;
   }
   return (
-    <div className="min-w-[280px]">
-      <div className="min-w-[280px] py-[32px] px-[16px] overflow-y-hidden flex-1 h-screen bg-black border-r border-white fixed left-0 top-[95px]">
+    <div className="lg:min-w-[280px] min-w-full h-screen lg:static fixed top-0 left-[-100%]  lg:bg-transparent bg-black/[0.50] z-[999999]">
+      <div className="w-[280px] py-[32px] px-[16px] flex flex-col justify-between lg:h-[calc(100%-90px)] h-full bg-black border-r border-white lg:fixed left-[0%] top-[95px]">
+        <div className="absolute top-0 -right-6 lg:hidden h-6 w-6 flex justify-center items-center border border-white cursor-pointer hover:bg-main/50">``
+          <HiMiniXMark color="white" size={30} />
+        </div>
         <div className="flex flex-col justify-center w-full gap-y-1">
           {menuItems.map((item, index) => (
             <div
@@ -29,6 +36,9 @@ const Sidebar = () => {
               </Link>
             </div>
           ))}
+        </div>
+        <div className="block lg:hidden">
+          <AuthButtons />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
 import axiosClient from "@/config";
 import { loginSchema, registerSchema } from "@/schemas";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useReducer, ReactNode, useEffect } from "react";
+import { createContext, useContext, useReducer, ReactNode } from "react";
 import { z } from "zod";
 
 // Define initial state
