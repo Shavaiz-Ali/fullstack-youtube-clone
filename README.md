@@ -3,10 +3,11 @@
 
 First create node modules and then run the dev server
 
-## To create node modules then run the following command"
+## To create node modules run the following command"
 ```bash 
 npm i 
 ```
+## To start dev server run the following command"
 
 ```bash
 npm run dev
