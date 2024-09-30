@@ -1,10 +1,11 @@
 
 ## Getting Started
 
-First, run the development server:
+First create node modules and then run the dev server
 
+## To create node modules then run the following command"
 ```bash 
-npm i "to create node modules then run the following command"
+npm i 
 ```
 
 ```bash
