@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useYoutubeApiContext } from "@/context/youtubeApiContext";
 import React from "react";
-import Loader from "./loader";
+import Loader from "../loader";
 import VideoCard from "./video-card";
 
 const HomeView = () => {
@@ -14,9 +15,9 @@ const HomeView = () => {
       {isFetching ? (
         <Loader />
       ) : isFetched && data && data?.length > 0 ? (
-        <div className="grid xl:grid-col-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 w-full">
-          {data?.map((item, _) => (
-            <VideoCard key={_} data={item?.type === "video" ? item : null} />
+        <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 w-full">
+          {data?.map((item:any) => (
+            <VideoCard key={item?.videoId} data={item?.type === "video" ? item : null} />
           ))}
         </div>
       ) : (

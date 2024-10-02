@@ -5,7 +5,7 @@ import { AuthProvider } from "@/context/authContext";
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import { YoutubeApiContextProvider } from "@/context/youtubeApiContext";
-
+import { HandleVideoViewsContextProvider } from "@/context/handleViewsContext";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,7 +37,11 @@ export default function RootLayout({
             <Header />
             <div className="flex w-full">
               <Sidebar />
-              <div className="w-full">{children}</div>
+              <div className="w-full">
+                <HandleVideoViewsContextProvider>
+                  {children}
+                </HandleVideoViewsContextProvider>
+              </div>
             </div>
           </YoutubeApiContextProvider>
         </AuthProvider>

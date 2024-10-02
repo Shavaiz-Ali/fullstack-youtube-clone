@@ -44,7 +44,6 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
         },
       });
       const results = await response.json();
-      console.log(results);
       if (response.ok) {
         setIsFetching(false);
         setIsFetched(true);

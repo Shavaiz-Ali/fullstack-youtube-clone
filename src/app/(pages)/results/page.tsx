@@ -1,9 +1,9 @@
-import React from 'react'
+import ShowSearchResults from "@/components/search/show-search-results"
 
 const SearchResults = () => {
   return (
-    <div className='text-white bg-black h-screen'>
-      Results
+    <div className="bg-black min-h-screen text-white p-4">
+      <ShowSearchResults />
     </div>
   )
 }
