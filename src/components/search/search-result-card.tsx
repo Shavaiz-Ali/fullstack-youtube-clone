@@ -11,7 +11,7 @@ const SearchResultsCard = (item: any) => {
   if (data === null) return;
   console.log(data);
   return (
-    <Card className="p-0 md:flex items-start md:gap-3 bg-transparent rounded-none border-none">
+    <Card className="p-0 sm:flex items-start md:gap-3 bg-transparent rounded-none border-none">
       <CardHeader className="relative p-0 md:w-[600px]">
         {data?.thumbnail || data?.thumbnail?.length > 0 ? (
           <img

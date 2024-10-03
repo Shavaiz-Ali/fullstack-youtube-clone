@@ -23,13 +23,18 @@ const FetchYoutubeApiContext = createContext<YoutubeApiState | undefined>(
   undefined
 );
 const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
+
+  // querries
   const searchQuery = useSearchParams().get("search");
   const videoId = useSearchParams().get("v1");
-  console.log("videoId", videoId);
 
+  // states
   const [data, setData] = useState<undefined[]>([]); // Fixed type
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
+
+
+  // api url
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
     : videoId
