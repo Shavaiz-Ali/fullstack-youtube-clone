@@ -8,7 +8,7 @@ const Watch = () => {
       </div>
       <div className="text-white">Side section</div>
     </div>
-  );S
+  );
 };
 
 export default Watch;
