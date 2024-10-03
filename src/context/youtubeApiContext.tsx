@@ -23,17 +23,22 @@ const FetchYoutubeApiContext = createContext<YoutubeApiState | undefined>(
   undefined
 );
 const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
-  const query = useSearchParams().get("search");
-  console.log(query);
+  const searchQuery = useSearchParams().get("search");
+  const videoId = useSearchParams().get("v1");
+  console.log("videoId", videoId);
+
   const [data, setData] = useState<undefined[]>([]); // Fixed type
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
-  const url = query
-    ? `https://yt-api.p.rapidapi.com/search?query=${query}`
+  const url = searchQuery
+    ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
+    : videoId
+    ? `https://yt-api.p.rapidapi.com/dl?id=${videoId}`
     : "https://yt-api.p.rapidapi.com/home";
 
   const fetchData = async () => {
-    console.log("recalled with query")
+    console.log("fetch triggred with ", videoId ,  url)
+    setIsFetching(true);
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -43,11 +48,12 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
           "x-rapidapi-host": "yt-api.p.rapidapi.com",
         },
       });
-      const results = await response.json();
+      const results = await response.json()
+      const endResults = results?.data ? results?.data : results
       if (response.ok) {
         setIsFetching(false);
         setIsFetched(true);
-        setData(results.data);
+        setData(endResults);
       }
     } catch (error) {
       setIsFetching(false);
@@ -57,7 +63,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [query]);
+  }, [searchQuery, videoId]);
 
   return (
     <FetchYoutubeApiContext.Provider value={{ data, isFetched, isFetching }}>

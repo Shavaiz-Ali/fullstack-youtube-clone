@@ -3,35 +3,26 @@
 import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { useHandleVideoViewsCountContext } from "@/context/handleViewsContext";
+import Link from "next/link";
 // import Image from "next/image";
 
 const VideoCard = (data: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
   const item = data?.data || null;
   if (!item || item === null) return;
-
-  // const handleViewsCount = (views: number) => {
-  //   if (!views) return;
-  //   if (views >= 100000 && views <= 1000000) {
-  //     return `${Math.floor(item.viewCount / 1000)}K`;
-  //   } else if (views >= 1000000 && views <= 10000000) {
-  //     return `${Math.floor(item.viewCount / 100000)}M`;
-  //   } else if (views >= 10000000) {
-  //     return `${Math.floor(item.viewCount / 10000000)}B`;
-  //   } else {
-  //     return new Intl.NumberFormat().format(views);
-  //   }
-  // };
+console.log(item)
   return (
     <Card className="p-0 bg-transparent border-0 w-full h-full">
-      <CardHeader className="relative p-0 w-full">
-        {item?.thumbnail || item?.thumbnail?.length > 0 ? (
-          <img
-            className="rounded"
-            src={`${item?.thumbnail[1]?.url || item?.thumbnail[1]?.url}`}
-            alt=""
-          />
-        ) : null}
+      <CardHeader className="relative p-0 w-full cursor-pointer">
+        <Link href={`/stream?v1=${item?.videoId}`}>
+          {item?.thumbnail || item?.thumbnail?.length > 0 ? (
+            <img
+              className="rounded"
+              src={`${item?.thumbnail[1]?.url || item?.thumbnail[1]?.url}`}
+              alt=""
+            />
+          ) : null}
+        </Link>
       </CardHeader>
       <CardContent className="p-0 mt-4">
         <div className="flex items-start gap-x-3">
