@@ -30,7 +30,7 @@ const SearchBox = ({ openSearchBox, setOpenSearchBox }: searchBoxProps) => {
         }
       )}
     >
-      <div className="sm:flex-none flex justify-center items-center gap-x-3">
+      <div className="sm:flex-none flex justify-center items-center gap-x-3 cursor-pointer">
         <div className="sm:hidden block">
           <FaArrowLeft
             className="cursor-pointer"
@@ -39,7 +39,7 @@ const SearchBox = ({ openSearchBox, setOpenSearchBox }: searchBoxProps) => {
             onClick={() => setOpenSearchBox(false)}
           />
         </div>
-        <div className="flex items-center px-2 border border-white w-[400px] h-[44px]">
+        <div className="flex items-center px-2 border border-white sm:w-[400px] w-[85%] h-[44px]">
           <CiSearch
             color="#ffffff"
             className="text-white h-6 w-6 font-bold"
