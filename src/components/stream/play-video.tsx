@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-  defaultLayoutIcons,
-  DefaultVideoLayout,
-} from "@vidstack/react/player/layouts/default";
+// import { MediaPlayer, MediaProvider } from "@vidstack/react";
+// import {
+//   defaultLayoutIcons,
+//   DefaultVideoLayout,
+// } from "@vidstack/react/player/layouts/default";
 
-// css imports
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
-
+// // css imports
+// import "@vidstack/react/player/styles/default/theme.css";
+// import "@vidstack/react/player/styles/default/layouts/video.css";
+import ReactPlayer from "react-player";
 const PlayVideo = ({ item }: any) => {
   if (!item || item.length < 1) return <div>No video available</div>;
 
@@ -17,24 +17,46 @@ const PlayVideo = ({ item }: any) => {
   console.log("Video source:", videoSrc);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full border border-gray-50/20 rounded-[8px]">
       {videoSrc ? (
-        <MediaPlayer
-          title="Sprite Fight"
-          src={"https://www.w3schools.com/html/mov_bbb.mp4"}
-          playsInline
-          autoPlay={true}
-          controls={true}
-        >
-          {/* Ensure MediaProvider is inside MediaPlayer */}
-          <MediaProvider>
-            <DefaultVideoLayout
-              thumbnails="/images/stream.jpg"
-              icons={defaultLayoutIcons}
-            />
-            
-          </MediaProvider>
-        </MediaPlayer>
+        // <MediaPlayer
+        //   title="Sprite Fight"
+        //   src={"https://www.w3schools.com/html/mov_bbb.mp4"}
+        //   playsInline
+        //   autoPlay={true}
+        //   controls={true}
+        // >
+        //   {/* Ensure MediaProvider is inside MediaPlayer */}
+        //   <MediaProvider>
+        //     <DefaultVideoLayout
+        //       thumbnails="/images/stream.jpg"
+        //       icons={defaultLayoutIcons}
+        //     />
+
+        // </MediaProvider>
+        // </MediaPlayer>
+        // <ReactPlayer
+        //   url={videoSrc}
+        //   width="100%"
+        //   height="100%"
+        //   playing
+        //   controls
+        //   volume={1}
+        // />
+        //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        //   allowfullscreen
+        // // ></iframe>
+
+        <iframe
+          width="100%"
+          height="100%"
+          src={videoSrc}
+          title="YouTube video player"
+          // frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          // referrerpolicy="strict-origin-when-cross-origin"
+          // allowfullscreen
+        ></iframe>
       ) : (
         <div className="text-white">Loading video...</div>
       )}

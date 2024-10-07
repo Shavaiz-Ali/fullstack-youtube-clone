@@ -5,6 +5,8 @@ import React from "react";
 import { useState } from "react";
 import { CiPlay1 } from "react-icons/ci";
 import PlayVideo from "./play-video";
+import VideoDetails from "./video-details";
+import Comments from "./comments";
 
 const Player = () => {
   const { isFetched, isFetching, data } = useYoutubeApiContext();
@@ -22,7 +24,7 @@ const Player = () => {
             className="w-full h-full bg-contain md:bg-cover bg-center bg-no-repeat flex justify-center items-center rounded-[8px] overflow-hidden border border-gray-50/20"
             style={{
               backgroundImage: `url(${
-                data?.thumbnail ? data?.thumbnail[4]?.url : null
+                data?.thumbnail ? data?.thumbnail[4]?.url : "/images/stream.jpg"
               })`,
             }}
           >
@@ -38,6 +40,8 @@ const Player = () => {
           </div>
         )}
       </div>
+      <VideoDetails data={data} />
+      <Comments />
     </div>
   );
 };

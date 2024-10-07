@@ -39,7 +39,7 @@ const SearchBox = ({ openSearchBox, setOpenSearchBox }: searchBoxProps) => {
             onClick={() => setOpenSearchBox(false)}
           />
         </div>
-        <div className="flex items-center px-2 border border-white sm:w-[400px] w-[85%] h-[44px]">
+        <div className="flex items-center px-2 sm:w-[400px] w-[85%] h-[44px] ring-2 ring-white focus-within:ring-main">
           <CiSearch
             color="#ffffff"
             className="text-white h-6 w-6 font-bold"
