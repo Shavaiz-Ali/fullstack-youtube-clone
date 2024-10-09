@@ -30,6 +30,8 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const searchQuery = useSearchParams().get("search");
   const videoId = useSearchParams().get("v1");
 
+  console.log(searchQuery, videoId)
+
   // states
   const [data, setData] = useState<undefined[]>([]); // Changed type to undefined[]
   const [comments, setComments] = useState<undefined | null>(null);
@@ -94,6 +96,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
 
   //fetching video comments
   const fetchVideoComments = async () => {
+    console.log("videoID", videoId);
     try {
       const url = `https://yt-api.p.rapidapi.com/comments?id=${videoId}`;
       const options = {
@@ -121,9 +124,10 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [searchQuery, videoId]);
 
-  useEffect(() => {
-    fetchVideoComments();
-  }, [videoId]);
+
+  // useEffect(() => {
+  //   fetchVideoComments()
+  // }, [videoId])
 
   return (
     <FetchYoutubeApiContext.Provider

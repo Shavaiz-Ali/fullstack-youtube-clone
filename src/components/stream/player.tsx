@@ -15,10 +15,10 @@ const Player = () => {
   console.log(data);
 
   return (
-    <div className="xl:w-[70%] lg:w-[60%] flex flex-col gap-y-5">
+    <div className="xl:w-[70%] w-fukk flex flex-col gap-y-5">
       <div className="w-full sm:h-[480px] h-[280px]">
         {play ? (
-          <PlayVideo item={data?.adaptiveFormats} />
+          <PlayVideo item={data?.id} />
         ) : (
           <div
             className="w-full h-full bg-contain md:bg-cover bg-center bg-no-repeat flex justify-center items-center rounded-[8px] overflow-hidden border border-gray-50/20"

@@ -4,7 +4,13 @@
 import axiosClient from "@/config";
 import { loginSchema, registerSchema } from "@/schemas";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useReducer, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  useEffect,
+} from "react";
 import { z } from "zod";
 
 // Define initial state
@@ -49,7 +55,10 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
     case "SET_ALERT":
       return { ...state, alert: { ...action.payload, visible: true } };
     case "CLEAR_ALERT":
-      return { ...state, alert: { message: undefined, type: undefined, visible: false } };
+      return {
+        ...state,
+        alert: { message: undefined, type: undefined, visible: false },
+      };
     case "SET_AUTH":
       return { ...state, isAuthenticated: action.payload };
     default:
@@ -72,48 +81,78 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, 3000); // Clear the alert after 3 seconds
   };
 
+  //register user
   const registerUser = async (data: z.infer<typeof registerSchema>) => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
 
-      const response = await axiosClient.post("/api/users/register", data);
+      const response = await axiosClient.post("/api/auth/register", data);
       dispatch({ type: "SET_LOADING", payload: false });
 
       if (response?.data?.success === false) {
-        setAlert(response.data.message || "Registration failed.", "destructive");
+        setAlert(
+          response.data.message || "Registration failed.",
+          "destructive"
+        );
       } else {
-        setAlert(response.data.message || "Registration successful!", "success");
-        router.push("/auth/register")
+        setAlert(
+          response.data.message || "Registration successful!",
+          "success"
+        );
+        router.push("/auth/login");
       }
 
       return response;
     } catch (error: any) {
       dispatch({ type: "SET_LOADING", payload: false });
-      setAlert(error?.response?.data?.message || "Registration failed.", "destructive");
+      setAlert(
+        error?.response?.data?.message || "Registration failed.",
+        "destructive"
+      );
     }
   };
 
+  //login user
   const loginUser = async (data: z.infer<typeof loginSchema>) => {
     try {
       dispatch({ type: "SET_LOADING", payload: true });
 
-      const response = await axiosClient.post("/api/users/login", data);
+      const response = await axiosClient.post("/api/auth/login", data);
       dispatch({ type: "SET_LOADING", payload: false });
 
       if (response?.data?.success === false) {
         setAlert(response.data.message || "Login failed.", "destructive");
       } else {
-        dispatch({ type: "SET_USER", payload: response.data.user });
+        // dispatch({ type: "SET_USER", payload: response.data.user });
         setAlert(response.data.message || "Login successful!", "success");
-        router.push("/")
+        window.location.href = "/";
       }
 
       return response;
     } catch (error: any) {
       dispatch({ type: "SET_LOADING", payload: false });
-      setAlert(error?.response?.data?.message || "Login failed.", "destructive");
+      setAlert(
+        error?.response?.data?.message || "Login failed.",
+        "destructive"
+      );
     }
   };
+
+  //get loggedin user details
+  const userDetails = async () => {
+    try {
+      const response = await axiosClient.get("/api/auth/me");
+      if(response.status === 200){
+        dispatch({ type: "SET_USER", payload: response.data.user });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    userDetails();
+  }, []);
 
   return (
     <AuthContext.Provider

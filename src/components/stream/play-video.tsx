@@ -8,55 +8,25 @@
 // // css imports
 // import "@vidstack/react/player/styles/default/theme.css";
 // import "@vidstack/react/player/styles/default/layouts/video.css";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 const PlayVideo = ({ item }: any) => {
-  if (!item || item.length < 1) return <div>No video available</div>;
+  // if (!item || item.length < 1) return <div>No video available</div>;
 
-  const videoSrc = item[0]?.url;
+  // const videoSrc = item[0]?.url;
 
-  console.log("Video source:", videoSrc);
+  console.log("Video source:", item);
 
   return (
-    <div className="w-full h-full border border-gray-50/20 rounded-[8px]">
-      {videoSrc ? (
-        // <MediaPlayer
-        //   title="Sprite Fight"
-        //   src={"https://www.w3schools.com/html/mov_bbb.mp4"}
-        //   playsInline
-        //   autoPlay={true}
-        //   controls={true}
-        // >
-        //   {/* Ensure MediaProvider is inside MediaPlayer */}
-        //   <MediaProvider>
-        //     <DefaultVideoLayout
-        //       thumbnails="/images/stream.jpg"
-        //       icons={defaultLayoutIcons}
-        //     />
-
-        // </MediaProvider>
-        // </MediaPlayer>
-        // <ReactPlayer
-        //   url={videoSrc}
-        //   width="100%"
-        //   height="100%"
-        //   playing
-        //   controls
-        //   volume={1}
-        // />
-        //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        //   allowfullscreen
-        // // ></iframe>
-
-        <iframe
+    <div className="w-full h-full border border-gray-50/20 rounded-[8px] overflow-hidden">
+      {item ? (
+        <ReactPlayer
+          url={`https://www.youtube.com/watch?v=${item}`}
           width="100%"
           height="100%"
-          src={videoSrc}
-          title="YouTube video player"
-          // frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          // referrerpolicy="strict-origin-when-cross-origin"
-          // allowfullscreen
-        ></iframe>
+          playing
+          controls
+          volume={1}
+        />
       ) : (
         <div className="text-white">Loading video...</div>
       )}

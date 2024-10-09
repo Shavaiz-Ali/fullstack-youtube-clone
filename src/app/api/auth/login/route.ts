@@ -5,16 +5,23 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // For generating tokens
 import cookie from "cookie"; // Use cookie-parser for setting cookies
 
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || "your-access-token-secret";
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || "your-refresh-token-secret";
+const ACCESS_TOKEN_SECRET =
+  process.env.ACCESS_TOKEN_SECRET || "your-access-token-secret";
+const REFRESH_TOKEN_SECRET =
+  process.env.REFRESH_TOKEN_SECRET || "your-refresh-token-secret";
 
 // Token generation function
 const generateAccessToken = (userId: string) => {
-  return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, {
+    expiresIn: "15m",
+    algorithm: "HS256", // Changed 'algorithms' to 'algorithm'
+  });
 };
-
 const generateRefreshToken = (userId: string) => {
-  return jwt.sign({ userId }, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+  return jwt.sign({ userId }, REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+    algorithm: "HS256", // Changed 'algorithms' to 'algorithm'
+  });
 };
 
 export async function POST(req: NextRequest) {
@@ -63,12 +70,16 @@ export async function POST(req: NextRequest) {
     const accessToken = generateAccessToken(userExists._id);
     const refreshToken = generateRefreshToken(userExists._id);
 
+    // Save refresh token to the database
+    userExists.refreshToken = refreshToken; // Assuming refreshToken field exists in user model
+    await userExists.save();
+
     // Set cookies for access token and refresh token (HTTP-only, Secure, SameSite)
     const accessTokenCookie = cookie.serialize("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", 
+      secure: process.env.NODE_ENV === "production",
       maxAge: 15 * 60,
-      sameSite: "strict", 
+      sameSite: "strict",
       path: "/",
     });
 
@@ -89,14 +100,18 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
     // Add cookies to the response
-    response.headers.set("Set-Cookie", `${accessTokenCookie}; ${refreshTokenCookie}`);
+    response.headers.set(
+      "Set-Cookie",
+      `${accessTokenCookie}; ${refreshTokenCookie}`
+    );
 
     return response;
   } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message: error instanceof Error ? error.message : "Internal server error",
+        message:
+          error instanceof Error ? error.message : "Internal server error",
       },
       { status: 500 }
     );
