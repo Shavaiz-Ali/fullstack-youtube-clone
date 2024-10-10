@@ -8,7 +8,7 @@ import cookie from "cookie";
 
 export async function POST(req) {
   await connectToDB();
-
+console.log("refreshing token")
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
   if (!refreshToken) {

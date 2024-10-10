@@ -1,105 +1,102 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// middleware.js
-
+// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose"; // Using jose for JWT verification
+import { jwtVerify } from "jose"; // JOSE for JWT verification
 
 export async function middleware(req: NextRequest) {
-  console.log("Middleware triggered");
-
   const { pathname } = req.nextUrl;
   const accessToken = req.cookies.get("accessToken")?.value;
-  const refreshToken = req.cookies.get("refreshToken")?.value; // Get refresh token from cookies
-  console.log("Access token from middleware:", accessToken);
+  const refreshToken = req.cookies.get("refreshToken")?.value;
 
-  // If no access token and the request is for a protected route (dashboard), redirect to login
-  if (!accessToken && pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/auth/login", req.url));
-  }
+  const isAuthRoute =
+    pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
 
-  // If an authenticated user tries to access auth pages, redirect to home
-  if (
-    accessToken &&
-    (pathname.includes("/auth/login") ||
-      pathname.includes("/auth/register") ||
-      pathname.startsWith("/auth"))
-  ) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  // If there's an access token, verify it
-  if (accessToken) {
-    try {
-      const secret = process.env.ACCESS_TOKEN_SECRET;
-      if (!secret) {
-        throw new Error(
-          "ACCESS_TOKEN_SECRET is not defined in environment variables."
-        );
-      }
-
-      const { payload } = await jwtVerify(
-        accessToken,
-        new TextEncoder().encode(secret),
-        {
-          algorithms: ["HS256"],
-        }
-      );
-
-      console.log("Authenticated user:", payload);
-      return NextResponse.next(); // Allow the request if token is valid
-    } catch (error: any) {
-      // If token is expired, attempt to refresh it using the refresh token
-      if (error.code === "ERR_JWT_EXPIRED" && refreshToken) {
-        console.error("JWT expired, trying to refresh...");
-
-        // Call the refresh token route to get a new access token
-        const refreshResponse = await fetch(
-          new URL("/api/auth/refresh-token", req.url),
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include", // Send cookies with the request
-          }
-        );
-
-        // If the refresh was successful, set the new access token and proceed
-        if (refreshResponse.ok) {
-          const newAccessToken = refreshResponse.headers.get("Set-Cookie");
-
-          // Ensure newAccessToken is not null before appending
-          if (newAccessToken) {
-            const response = NextResponse.next();
-            response.headers.append("Set-Cookie", newAccessToken);
-            console.log("Access token refreshed successfully");
-            return response; // Return the response after setting the cookie
-          } else {
-            console.error("No new access token received.");
-            return NextResponse.redirect(new URL("/auth/login", req.url));
-          }
-        } else {
-          // If the refresh fails, redirect to login
-          console.error("Refresh token failed, redirecting to login");
-          return NextResponse.redirect(new URL("/auth/login", req.url));
-        }
-      }
-
-      // If refresh token is missing or any other error occurs, redirect to login
-      console.error(
-        "JWT verification failed:",
-        error instanceof Error ? error.message : "Unknown error"
-      );
+    // if()
+  try {
+    // If no tokens and accessing a protected route, redirect to login
+    if (!accessToken && !refreshToken && pathname.startsWith("/dashboard")) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
-  }
 
-  return NextResponse.next(); // Allow the request if token verification is not needed
+    // If no tokens and accessing auth routes, allow
+    if (!accessToken && !refreshToken && isAuthRoute) {
+      return NextResponse.next();
+    }
+
+    // Verify access token if it exists
+    if (accessToken) {
+      try {
+        const secret = new TextEncoder().encode(
+          process.env.ACCESS_TOKEN_SECRET
+        );
+
+        // Verify the access token
+        await jwtVerify(accessToken, secret, { algorithms: ["HS256"] });
+        console.log("Access token valid, authenticated user.");
+
+        // Prevent authenticated users from accessing auth routes
+        if (isAuthRoute) {
+          return NextResponse.redirect(new URL("/", req.url));
+        }
+
+        return NextResponse.next();
+      } catch (error: any) {
+        // Handle expired access token
+        if (error.code === "ERR_JWT_EXPIRED" && refreshToken) {
+          console.log("Access token expired, attempting to refresh...");
+
+          // Attempt to refresh the token
+          const refreshResponse = await fetch(
+            new URL("/api/auth/refresh-token", req.url),
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include", // Send cookies with the request
+            }
+          );
+
+          if (refreshResponse.ok) {
+            const newAccessToken = refreshResponse.headers.get("Set-Cookie");
+
+            if (newAccessToken) {
+              console.log("Access token refreshed successfully.");
+
+              // Set the new access token in the cookies
+              const response = NextResponse.next();
+              response.headers.append("Set-Cookie", newAccessToken);
+
+              // If the user is trying to access auth routes, block them
+              if (isAuthRoute) {
+                return NextResponse.redirect(new URL("/", req.url));
+              }
+
+              return response;
+            } else {
+              console.error("No new access token received during refresh.");
+              return NextResponse.redirect(new URL("/auth/login", req.url));
+            }
+          } else {
+            console.error("Failed to refresh token, redirecting to login.");
+            return NextResponse.redirect(new URL("/auth/login", req.url));
+          }
+        }
+
+        // Handle any other JWT verification errors
+        console.error("JWT verification error:", error);
+        return NextResponse.redirect(new URL("/auth/login", req.url));
+      }
+    }
+
+    return NextResponse.next(); // Proceed if no issues
+  } catch (error: any) {
+    console.error("Middleware error:", error);
+    return NextResponse.redirect(new URL("/auth/login", req.url));
+  }
 }
 
 export const config = {
   matcher: [
     "/dashboard/:path*", // Protect all dashboard routes
-    "/auth/:path*", // Apply middleware to all auth routes as well
+    "/auth/:path*", // Apply middleware to all auth routes
   ],
 };
