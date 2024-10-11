@@ -20,6 +20,8 @@ interface YoutubeApiState {
   isFetching: boolean;
   fetchChannelDetails: ({ channelId }: { channelId: string }) => Promise<any>; // Change this to return a Promise
   comments: null | undefined;
+  setProfileId: (profileId: string) => void;
+  profileId: string | undefined;
 }
 
 const FetchYoutubeApiContext = createContext<YoutubeApiState | undefined>(
@@ -30,13 +32,14 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const searchQuery = useSearchParams().get("search");
   const videoId = useSearchParams().get("v1");
 
-  console.log(searchQuery, videoId)
+  console.log(searchQuery, videoId);
 
   // states
   const [data, setData] = useState<undefined[]>([]); // Changed type to undefined[]
   const [comments, setComments] = useState<undefined | null>(null);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [profileId, setProfileId] = useState<string | undefined>("");
 
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
@@ -70,9 +73,18 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   //fetching channel details
-  const fetchChannelDetails = async ({ channelId }: { channelId: string }) => {
+  const fetchChannelDetails = async ({
+    channelId,
+    tab,
+  }: {
+    channelId: string;
+    tab?: string;
+  }) => {
+    console.log("channelID",channelId, tab);
     try {
-      const url = `https://yt-api.p.rapidapi.com/channel/about?id=${channelId}`;
+      const url = `https://yt-api.p.rapidapi.com/channel/${
+        tab ? tab : "about"
+      }?id=${channelId}`;
       const options = {
         method: "GET",
         headers: {
@@ -124,7 +136,6 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     fetchData();
   }, [searchQuery, videoId]);
 
-
   // useEffect(() => {
   //   fetchVideoComments()
   // }, [videoId])
@@ -137,6 +148,8 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
         isFetching,
         fetchChannelDetails,
         comments,
+        setProfileId,
+        profileId,
       }}
     >
       {children}
