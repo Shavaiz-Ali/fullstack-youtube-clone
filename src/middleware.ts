@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
     // if()
   try {
     // If no tokens and accessing a protected route, redirect to login
-    if (!accessToken && !refreshToken && pathname.startsWith("/dashboard")) {
+    if (!accessToken && (pathname.startsWith("/profile") || pathname.includes("/profile"))) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 

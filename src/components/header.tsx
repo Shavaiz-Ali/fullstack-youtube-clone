@@ -6,10 +6,8 @@ import { usePathname } from "next/navigation";
 import { FaBars } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import AuthButtons from "./auth-buttons";
-import { useHandleSidebar } from "@/hooks/useHandleSideBar";
 import { useState } from "react";
 const Header = () => {
-  const {setOpenSideBar} = useHandleSidebar()
   const [openSearchBox, setOpenSearchBox] = useState<boolean>(false)
   const pathname = usePathname();
 
@@ -31,7 +29,9 @@ const Header = () => {
           </div>
           <div className="lg:hidden flex justify-center items-center gap-x-4">
             <CiSearch className="cursor-pointer sm:hidden block" color="#ffffff" size={24} onClick={() => setOpenSearchBox(true)}/>
-            <FaBars className="cursor-pointer" color="#ffffff" size={24} onClick={() => setOpenSideBar(true)}/>
+            <FaBars className="cursor-pointer" color="#ffffff" size={24}
+            //  onClick={() => setOpenSideBar(true)}
+             />
           </div>
         </div>
       </div>

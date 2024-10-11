@@ -1,3 +1,4 @@
+import ProfileInfo from "@/components/dashboard/profile/profile-info";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,5 +15,10 @@ export default function ProfileLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="text-white">profile{children}</div>; // Removed <html> and <body> to prevent multiple body components
+  return (
+    <div className="text-white">
+      <ProfileInfo />
+      {children}
+    </div>
+  );
 }

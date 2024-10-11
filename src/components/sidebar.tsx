@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AuthButtons from "./auth-buttons";
 import { HiMiniXMark } from "react-icons/hi2";
-import { useHandleSidebar } from "@/hooks/useHandleSideBar";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import { IoSettingsOutline } from "react-icons/io5";
 import { cn } from "@/lib/utils";
@@ -13,8 +12,6 @@ import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const { openSideBar } = useHandleSidebar();
-  console.log("sidebar console", openSideBar);
   if (
     pathname.startsWith("/auth") ||
     pathname.includes("/auth/login") ||
