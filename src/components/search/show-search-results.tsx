@@ -16,7 +16,7 @@ const ShowSearchResults = () => {
         <div className="space-y-8">
           {data?.map((item: any) => (
             <SearchResultsCard
-              item={item?.type === "video" ? item : null}
+              item={item}
               key={item?.videoId}
             />
           ))}
