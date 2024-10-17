@@ -1,7 +1,7 @@
 // app/api/auth/refresh-token/route.js
 
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import connectToDB from "@/db";
 import User from "@/models/userModel";
 import cookie from "cookie";
@@ -30,9 +30,18 @@ export async function POST(req: NextRequest) {
 
   try {
     // Verify the refresh token
-    const decoded = jwt.verify(refreshToken, refreshTokenSecret);
+    const decoded = jwt.verify(refreshToken, refreshTokenSecret) as JwtPayload;
+
+    // Type guard to ensure decoded contains a valid userId
+    if (typeof decoded !== "object" || !decoded.userId) {
+      return NextResponse.json(
+        { message: "Invalid refresh token payload" },
+        { status: 403 }
+      );
+    }
+
     // Find the user by the userId stored in the refresh token
-    const user = await User.findById(decoded?.userId);
+    const user = await User.findById(decoded.userId);
 
     if (!user || user.refreshToken !== refreshToken) {
       return NextResponse.json(
