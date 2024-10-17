@@ -7,6 +7,7 @@ export interface MenuItemsType {
 }
 
 export interface ApiResponseTypes {
-    code: number;
-    id: string;
+  data: [];
+  code: number;
+  id: string;
 }
