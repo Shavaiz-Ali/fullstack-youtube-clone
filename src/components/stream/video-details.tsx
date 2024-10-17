@@ -13,7 +13,12 @@ import {
 
 const VideoDetails = ({ data }: any) => {
   const [expandDescription, setExpanDescription] = useState(false);
-  const [channelDetails, setChannelDetails] = useState<undefined | null>(null);
+  const [channelDetails, setChannelDetails] = useState<{
+    avatar: { url: string }[];
+    url: string;
+    title: string;
+    subscriberCountText: string;
+  } | null>(null);
   console.log(data);
 
   const { fetchChannelDetails } = useYoutubeApiContext();
