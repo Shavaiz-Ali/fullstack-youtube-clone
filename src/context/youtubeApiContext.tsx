@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { ApiResponseTypes } from "@/types";
 import axios from "axios";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
@@ -15,7 +16,7 @@ import {
 
 // Define initial state
 interface YoutubeApiState {
-  data: undefined[];
+  data: ApiResponseTypes | null;
   isFetched: boolean;
   isFetching: boolean;
   fetchChannelDetails: ({ channelId }: { channelId: string }) => Promise<any>; // Change this to return a Promise
@@ -39,7 +40,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   console.log(searchQuery, pathname);
 
   // states
-  const [data, setData] = useState<undefined[]>([]); // Changed type to undefined[]
+  const [data, setData] = useState<ApiResponseTypes | null>(null); // Changed type to undefined[]
   const [comments, setComments] = useState<undefined | null>(null);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);

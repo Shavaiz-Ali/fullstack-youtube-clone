@@ -13,7 +13,7 @@ const ShortsPlayer: React.FC = () => {
     <>
       {isFetching && !isFetched ? (
         <div className="text-white">Loading</div>
-      ) : isFetched && data ? (
+      ) : isFetched && data && data.code !== 403 ? (
         <div className="h-full w-full border border-gray-50/20 rounded-[8px]">
           <ReactPlayer
             url={`https://www.youtube.com/shorts/${data.id}`}
