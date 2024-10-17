@@ -1,2 +1,5 @@
 {
+  "editor.wrappingIndent": "same",
+  "workbench.editor.wrapTabs": false,
+  "chat.editor.wordWrap": "off"
 }

@@ -4,7 +4,7 @@
 "use client";
 
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   createContext,
   useContext,
@@ -31,8 +31,12 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   // querries
   const searchQuery = useSearchParams().get("search");
   const videoId = useSearchParams().get("v1");
+  const pathname = usePathname().replaceAll("/", "").replace("shorts", "");
+  // if (pathname.includes("/shorts")) {
+  //   pathname = pathname.replaceAll("/", "").replace("shorts", "");
+  // }
 
-  console.log(searchQuery, videoId);
+  console.log(searchQuery, pathname);
 
   // states
   const [data, setData] = useState<undefined[]>([]); // Changed type to undefined[]
@@ -43,13 +47,19 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
 
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
-    : videoId
-    ? `https://yt-api.p.rapidapi.com/dl?id=${videoId}`
+    : videoId || pathname
+    ? `https://yt-api.p.rapidapi.com/dl?id=${videoId || pathname}`
     : "https://yt-api.p.rapidapi.com/home";
 
+  // fetch video
+
   const fetchData = async () => {
-    console.log("fetch triggred with ", videoId, url);
+    console.log("fetch triggred with ", videoId, pathname);
     setIsFetching(true);
+    if (pathname && pathname.includes("/shorts")) {
+      setIsFetching(false);
+      return;
+    }
     try {
       const response = await fetch(url, {
         method: "GET",
@@ -59,13 +69,17 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
           "x-rapidapi-host": "yt-api.p.rapidapi.com",
         },
       });
+
+      if (!response.ok) {
+        console.log(response);
+      }
+
       const results = await response.json();
       const endResults = results?.data ? results?.data : results;
+      console.log(endResults);
       setIsFetching(false);
-      if (response.ok) {
-        setIsFetched(true);
-        setData(endResults);
-      }
+      setIsFetched(true);
+      setData(endResults);
     } catch (error) {
       setIsFetching(false);
       console.log(error);
@@ -80,7 +94,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     channelId: string;
     tab?: string;
   }) => {
-    console.log("channelID",channelId, tab);
+    console.log("channelID", channelId, tab);
     try {
       const url = `https://yt-api.p.rapidapi.com/channel/${
         tab ? tab : "about"
@@ -134,7 +148,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchData();
-  }, [searchQuery, videoId]);
+  }, [searchQuery, videoId, pathname]);
 
   // useEffect(() => {
   //   fetchVideoComments()
