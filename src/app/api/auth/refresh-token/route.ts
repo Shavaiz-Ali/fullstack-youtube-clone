@@ -56,7 +56,7 @@ console.log("refreshing token")
     return res;
   } catch (error) {
     return NextResponse.json(
-      { message: "Invalid refresh token" },
+      { message: "Invalid refresh token" , error},
       { status: 403 }
     );
   }

@@ -25,7 +25,7 @@ const VideoDetails = ({ data }: any) => {
           console.error("Error fetching channel details:", error)
         );
     }
-  }, [data?.channelId]);
+  }, [data?.channelId, fetchChannelDetails]);
 
   return (
     <div className="w-full border border-white rounded-[16px] h-[px] p-[24px]">
