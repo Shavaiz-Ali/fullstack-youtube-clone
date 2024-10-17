@@ -10,4 +10,5 @@ export interface ApiResponseTypes {
   data: [];
   code: number;
   id: string;
+  thumbnail:{url:string}[]
 }
