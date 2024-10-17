@@ -1,12 +1,12 @@
 // app/api/auth/refresh-token/route.js
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import connectToDB from "@/db";
 import User from "@/models/userModel";
 import cookie from "cookie";
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   await connectToDB();
 console.log("refreshing token")
   const refreshToken = req.cookies.get("refreshToken")?.value;
