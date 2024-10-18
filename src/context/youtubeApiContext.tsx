@@ -17,7 +17,8 @@ import {
 
 // Define initial state
 interface YoutubeApiState {
-  data: ApiResponseTypes[] | null;
+  // data: ApiResponseTypes[] | null;
+  data: any | null;
   isFetched: boolean;
   isFetching: boolean;
   fetchChannelDetails: ({ channelId }: { channelId: string }) => Promise<any>;
