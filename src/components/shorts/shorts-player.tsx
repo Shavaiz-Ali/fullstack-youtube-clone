@@ -8,16 +8,17 @@ const ShortsPlayer: React.FC = () => {
   const { data, isFetched, isFetching } = useYoutubeApiContext();
 
   // Safely access the first element of the array
+  console.log(data)
   const videoData = data && data.length > 0 ? data[0] : null;
-
+console.log(videoData)
   return (
     <>
       {isFetching && !isFetched ? (
         <div className="text-white">Loading</div>
-      ) : isFetched && videoData && videoData.code !== 403 ? (
-        <div className="h-full w-full border border-gray-50/20 rounded-[8px]">
+      ) : isFetched && data && data.code !== 403 ? (
+        <div className="h-full w-full sm:w-[450px] border border-gray-50/20 rounded-[8px]">
           <ReactPlayer
-            url={`https://www.youtube.com/shorts/${videoData.id}`}
+            url={`https://www.youtube.com/shorts/${data.id}`}
             width="100%"
             height="100%"
             playing

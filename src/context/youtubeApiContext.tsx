@@ -40,6 +40,8 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [profileId, setProfileId] = useState<string | undefined>("");
+  const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY; 
+  // console.log(API_KEY)
 
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
@@ -57,7 +59,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "x-rapidapi-key": process.env.NEXT_PUBLIC_RAPIDAPI_KEY as string,
+          "x-rapidapi-key": API_KEY as string,
           "x-rapidapi-host": "yt-api.p.rapidapi.com",
         },
       });

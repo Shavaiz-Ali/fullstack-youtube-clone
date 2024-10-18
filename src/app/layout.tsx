@@ -55,7 +55,7 @@ export default function RootLayout({
             <Header />
             <div className="flex w-full">
               <Sidebar />
-              <div className="w-full">
+              <div className="w-full overflow-x-hidden">
                 <HandleVideoViewsContextProvider>
                   {children}
                 </HandleVideoViewsContextProvider>

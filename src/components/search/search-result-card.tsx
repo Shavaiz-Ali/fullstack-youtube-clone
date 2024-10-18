@@ -104,7 +104,7 @@ const SearchResultsCard = (item: any) => {
             </div>
             <BsThreeDotsVertical />
           </div>
-          <Carousel>
+          <Carousel className="w-full">
             <CarouselContent className="px-4 space-x-4">
               {data?.type === "shorts_listing" && data?.data?.length > 0
                 ? data?.data.map((short: any) => (

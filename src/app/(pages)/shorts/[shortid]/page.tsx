@@ -4,16 +4,13 @@ import React from "react";
 
 const ShortsPage = () => {
   return (
-    <div className="w-full h-full flex justify-between items-start p-4">
-      <div className="w-full flex items-center gap-x-2 self-start">
+    <div className="relative w-full h-[calc(100vh-90px)] flex justify-center p-4 overflow-x-hidden">
+      <div className="absolute md:top-4 top-3 left-2 md:left-4 w-full flex items-center gap-x-2 self-start">
         <ArrowLeftIcon color="#ffffff" fontSize={25} />
         <span className="text-md font-medium text-white">Search</span>
       </div>
-      <div className="w-full h-[calc(100%-90px)]">
+      <div className="sm:w-auto w-full md:h-full h-[96%] md:mt-0 mt-6">
         <ShortsPlayer />
-      </div>
-      <div className="w-full text-white self-center flex flex-col items-center justify-end">
-        hey
       </div>
     </div>
   );
