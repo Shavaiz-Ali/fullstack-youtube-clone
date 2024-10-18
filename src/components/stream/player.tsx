@@ -9,10 +9,9 @@ import VideoDetails from "./video-details";
 import Comments from "./comments";
 
 const Player = () => {
-  const { isFetched, isFetching, data } = useYoutubeApiContext();
+  const { data } = useYoutubeApiContext();
   const [play, setPlay] = useState<boolean>(false);
-  console.log(isFetched, isFetching);
-  console.log(data);
+
 
   const videoDetails = data && data.length > 0 ? data[0] : null;
 

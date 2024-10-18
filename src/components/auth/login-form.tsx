@@ -33,7 +33,7 @@ const SignInForm = () => {
 
   const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     const res = await loginUser(data);
-    console.log(res);
+    // console.log(res);
     if (res?.status === 200) {
       form.reset();
     }

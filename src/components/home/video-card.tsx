@@ -12,11 +12,14 @@ const VideoCard = (data: any) => {
   const {setProfileId} = useYoutubeApiContext()
   const item = data?.data || null;
   if (!item || item === null) return;
-  console.log(item);
+
+
   const handle =
     item?.channelHandle || !item?.channelHandle === undefined
       ? `/profile/${item?.channelHandle}`
       : "/not-found";
+
+      
   return (
     <Card className="p-0 bg-transparent border-0 w-full h-full">
       <CardHeader className="relative p-0 w-full cursor-pointer">

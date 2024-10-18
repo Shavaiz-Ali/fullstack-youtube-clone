@@ -19,7 +19,7 @@ const VideoDetails = ({ data }: any) => {
     title: string;
     subscriberCountText: string;
   } | null>(null);
-  console.log(data);
+  // console.log(data);
 
   const { fetchChannelDetails } = useYoutubeApiContext();
   useEffect(() => {

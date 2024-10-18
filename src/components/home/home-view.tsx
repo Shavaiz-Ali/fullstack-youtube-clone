@@ -8,8 +8,6 @@ import Error from "../error";
 
 const HomeView = () => {
   const { data, isFetched, isFetching } = useYoutubeApiContext();
-  console.log(isFetching);
-  console.log("hey",data);
   return (
     <>
       {/* <VideoCard /> */}

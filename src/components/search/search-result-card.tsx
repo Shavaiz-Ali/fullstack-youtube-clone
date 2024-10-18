@@ -16,7 +16,8 @@ const SearchResultsCard = (item: any) => {
   if (!item || item.length < 1) return;
   const data = item?.item;
   if (data === null) return;
-  console.log(data);
+
+  
   return (
     <>
       {data?.type === "video" ? (

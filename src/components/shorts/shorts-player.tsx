@@ -8,9 +8,9 @@ const ShortsPlayer: React.FC = () => {
   const { data, isFetched, isFetching } = useYoutubeApiContext();
 
   // Safely access the first element of the array
-  console.log(data)
-  const videoData = data && data.length > 0 ? data[0] : null;
-console.log(videoData)
+  // console.log(data)
+//   const videoData = data && data.length > 0 ? data[0] : null;
+// console.log(videoData)
   return (
     <>
       {isFetching && !isFetched ? (
