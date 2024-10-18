@@ -32,7 +32,7 @@ const VideoDetails = ({ data }: any) => {
     }
   }, [data?.channelId, fetchChannelDetails]);
 
-  console.log(channelDetails)
+  // console.log(channelDetails)
 
   return (
     <div className="w-full border border-white rounded-[16px] h-[px] p-[24px]">
