@@ -13,19 +13,19 @@ const Player = () => {
   const [play, setPlay] = useState<boolean>(false);
 
 
-  const videoDetails = data && data.length > 0 ? data[0] : null;
+  // const videoDetails = data && data.length > 0 ? data[0] : null;
 
   return (
     <div className="xl:w-[70%] w-fukk flex flex-col gap-y-5">
       <div className="w-full sm:h-[480px] h-[280px]">
         {play ? (
-          <PlayVideo item={videoDetails?.id} />
+          <PlayVideo item={data?.id} />
         ) : (
           <div
             className="w-full h-full bg-contain md:bg-cover bg-center bg-no-repeat flex justify-center items-center rounded-[8px] overflow-hidden border border-gray-50/20"
             style={{
               backgroundImage: `url(${
-                videoDetails?.thumbnail ? videoDetails?.thumbnail[4]?.url : "/images/stream.jpg"
+                data?.thumbnail ? data?.thumbnail[4]?.url : "/images/stream.jpg"
               })`,
             }}
           >

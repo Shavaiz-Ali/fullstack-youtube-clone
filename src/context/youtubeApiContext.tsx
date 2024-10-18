@@ -89,7 +89,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
         {
           method: "GET",
           headers: {
-            "x-rapidapi-key": "c12f85e2f8msh5cca653a58d801fp15981ejsn9271b771e62",
+            "x-rapidapi-key": API_KEY as string,
             "x-rapidapi-host": "yt-api.p.rapidapi.com",
           },
         }

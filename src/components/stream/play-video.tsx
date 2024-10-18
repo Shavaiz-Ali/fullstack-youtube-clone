@@ -15,6 +15,7 @@ const PlayVideo = ({ item }: any) => {
   // const videoSrc = item[0]?.url;
 
   // console.log("Video source:", item);
+  // console.log(item)
 
   return (
     <div className="w-full h-full border border-gray-50/20 rounded-[8px] overflow-hidden">
