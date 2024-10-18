@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+
+
 import { NextRequest, NextResponse } from "next/server";
 import { jwtDecode } from "jwt-decode"; // This doesn't need to be async
 import User from "@/models/userModel";

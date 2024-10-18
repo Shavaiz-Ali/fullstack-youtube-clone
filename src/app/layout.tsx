@@ -5,6 +5,8 @@ import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import { YoutubeApiContextProvider } from "@/context/youtubeApiContext";
 import { HandleVideoViewsContextProvider } from "@/context/handleViewsContext";
+import { Suspense } from "react";
+import Loader from "@/components/loader";
 
 
 export const metadata: Metadata = {
@@ -50,6 +52,7 @@ export default function RootLayout({
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Suspense fallback={<Loader />}>
         <AuthProvider>
           <YoutubeApiContextProvider>
             <Header />
@@ -63,6 +66,7 @@ export default function RootLayout({
             </div>
           </YoutubeApiContextProvider>
         </AuthProvider>
+        </Suspense>
       </body>
     </html>
   );
