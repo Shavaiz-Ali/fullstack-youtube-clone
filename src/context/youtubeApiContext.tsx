@@ -41,13 +41,13 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [profileId, setProfileId] = useState<string | undefined>("");
-  const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY; 
+  const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
   // console.log(API_KEY)
 
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
     : videoId || pathname
-    ? `https://yt-api.p.rapidapi.com/dl?id=${videoId || pathname}`
+    ? `https://yt-api.p.rapidapi.com/video/info?id=${videoId || pathname}`
     : "https://yt-api.p.rapidapi.com/home";
 
   const fetchData = async () => {
@@ -66,6 +66,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
       });
 
       const results = await response.json();
+      console.log(results);
       const endResults = results?.data ? results?.data : results;
       setIsFetching(false);
       setIsFetched(true);
@@ -83,9 +84,14 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     channelId: string;
     tab?: string;
   }) => {
+    console.log(channelId, tab);
+    if (!channelId) return;
+    setIsFetching(true);
     try {
       const response = await fetch(
-        `https://yt-api.p.rapidapi.com/channel/${tab || "about"}?id=${channelId}`,
+        `https://yt-api.p.rapidapi.com/channel/${
+          tab || "about"
+        }?id=${channelId}`,
         {
           method: "GET",
           headers: {
@@ -94,8 +100,11 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
           },
         }
       );
+      setIsFetching(false);
+      setIsFetched(true);
       return await response.json();
     } catch (error) {
+      setIsFetching(false);
       console.error("Error fetching channel details:", error);
       return null;
     }

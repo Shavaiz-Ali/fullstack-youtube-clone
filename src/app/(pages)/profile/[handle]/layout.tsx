@@ -1,4 +1,5 @@
-import ProfileInfo from "@/components/dashboard/profile/profile-info";
+import ProfileInfo from "@/components/profile/profile-info";
+import ProfileTabs from "@/components/profile/profile-tabs";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,8 +17,9 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="text-white">
+    <div className="text-white w-full">
       <ProfileInfo />
+      <ProfileTabs />
       {children}
     </div>
   );

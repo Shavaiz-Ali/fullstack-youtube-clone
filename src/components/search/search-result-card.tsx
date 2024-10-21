@@ -10,20 +10,24 @@ import Image from "next/image";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-
 const SearchResultsCard = (item: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
   if (!item || item.length < 1) return;
   const data = item?.item;
   if (data === null) return;
 
-  
+  console.log(data);
+
+  const handle =
+    data?.channelHandle || !data?.channelHandle === undefined
+      ? `/profile/${data?.channelHandle}?channelId=${data?.channelId}`
+      : "/not-found";
   return (
     <>
       {data?.type === "video" ? (
         <Card className="p-0 sm:flex items-start md:gap-3 bg-transparent rounded-none border-none">
           <CardHeader className="relative p-0 md:w-[600px] cursor-pointer">
-            <Link href={`/stream?v1=${data?.videoId}`}>
+            <Link href={`/stream?v1=${data?.videoId}`} scroll={true}>
               {data?.thumbnail || data?.thumbnail?.length > 0 ? (
                 <img
                   className="rounded-md border border-gray-50/20"
@@ -69,19 +73,23 @@ const SearchResultsCard = (item: any) => {
                 )}
               </div>
               <div className="flex justify-center items-center  gap-x-3">
-                <div className="md:w-[60px] w-[60px] overflow-hidden relative">
-                  <img
-                    className="h-14 w-14 rounded-full object-cover border"
-                    src={`${
-                      data?.channelThumbnail?.length > 0 &&
-                      data?.channelThumbnail[0]?.url
-                    }`}
-                    alt=""
-                  />
+                <div className="md:w-[60px] w-[60px] overflow-hidden relative cursor-pointer">
+                  <Link href={handle} scroll={true}>
+                    <img
+                      className="h-14 w-14 rounded-full object-cover border"
+                      src={`${
+                        data?.channelThumbnail?.length > 0 &&
+                        data?.channelThumbnail[0]?.url
+                      }`}
+                      alt=""
+                    />
+                  </Link>
                 </div>
-                <p className="text-white text-md font-medium">
-                  {data?.channelTitle}
-                </p>
+                <Link href={handle} scroll={true}>
+                  <p className="text-white text-md font-medium">
+                    {data?.channelTitle}
+                  </p>
+                </Link>
               </div>
               <div className="md:block hidden w-full ">
                 <span className="line-clamp-1 text-sm font-medium text-white">

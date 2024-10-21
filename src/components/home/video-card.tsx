@@ -9,21 +9,19 @@ import { useYoutubeApiContext } from "@/context/youtubeApiContext";
 
 const VideoCard = (data: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
-  const {setProfileId} = useYoutubeApiContext()
+  const { setProfileId } = useYoutubeApiContext();
   const item = data?.data || null;
   if (!item || item === null) return;
 
-
   const handle =
     item?.channelHandle || !item?.channelHandle === undefined
-      ? `/profile/${item?.channelHandle}`
+      ? `/profile/${item?.channelHandle}?channelId=${item?.channelId}`
       : "/not-found";
 
-      
   return (
     <Card className="p-0 bg-transparent border-0 w-full h-full">
       <CardHeader className="relative p-0 w-full cursor-pointer">
-        <Link href={`/stream?v1=${item?.videoId}`}>
+        <Link href={`/stream?v1=${item?.videoId}`} scroll={true}>
           {item?.thumbnail || item?.thumbnail?.length > 0 ? (
             <img
               className="rounded"
@@ -35,7 +33,12 @@ const VideoCard = (data: any) => {
       </CardHeader>
       <CardContent className="p-0 mt-4">
         <div className="flex items-start gap-x-3">
-          <Link className="cursor-pointer" href={`${handle}`} onClick={() => setProfileId(item?.channelId)}>
+          <Link
+            className="cursor-pointer"
+            href={`${handle}`}
+            onClick={() => setProfileId(item?.channelId)}
+            scroll={true}
+          >
             <div className="h-12 w-12 overflow-hidden relative flex-shrink-0">
               <img
                 className="h-full w-full rounded-full object-cover border"
@@ -59,7 +62,12 @@ const VideoCard = (data: any) => {
               <span>.</span>
               <p>{item?.publishedTimeText}</p>
             </div>
-            <Link className="cursor-pointer" href={`${handle}`} onClick={() => setProfileId(item?.channelId)}>
+            <Link
+              className="cursor-pointer"
+              href={`${handle}`}
+              onClick={() => setProfileId(item?.channelId)}
+              scroll={true}
+            >
               <p className="text-sm line-clamp-1">{item?.channelTitle}</p>
             </Link>
           </div>
