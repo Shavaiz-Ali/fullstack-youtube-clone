@@ -5,15 +5,19 @@ import Error from "@/components/error";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useYoutubeApiContext } from "@/context/youtubeApiContext";
+import { useHandleChannelId } from "@/hooks/useHandleChannelId";
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { FaUserPlus } from "react-icons/fa6";
 
 const ProfileInfo = () => {
-  const params = useSearchParams().get("channelId");
+  const { channelId } = useHandleChannelId();
   const { isFetching, isFetched, fetchChannelDetails } = useYoutubeApiContext();
+
+  console.log(channelId);
+
   const [data, setData] = useState<null | {
     avatar: { url: string }[];
     banner: { url: string }[];
@@ -25,12 +29,12 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     fetchChannelDetails({
-      channelId: params as string,
+      channelId: channelId as string,
       tab: "about",
     })
       .then((res) => setData(res))
       .catch((error) => console.log(error));
-  }, [params]);
+  }, [channelId]);
 
   console.log(data);
 
@@ -58,7 +62,7 @@ const ProfileInfo = () => {
                 }}
               />
 
-              <div className="flex flex-col sm:flex-row sm:justify-center items-start sm:items-center gap-3 xl:gap-3 sm:gap-0 p-4">
+              <div className="flex flex-col sm:flex-row sm:justify-center items-start sm:items-center gap-3 p-4">
                 <div className="sm:w-[160px] sm:px-0">
                   <div className="size-[96px] sm:size-[140px] xl:size-[160px] bg-white rounded-full text-6xl font-semibold text-black flex justify-center items-center ">
                     {data?.avatar && data?.avatar?.length > 0 ? (

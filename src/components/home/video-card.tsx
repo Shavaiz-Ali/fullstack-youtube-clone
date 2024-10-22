@@ -4,18 +4,19 @@ import React from "react";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import { useHandleVideoViewsCountContext } from "@/context/handleViewsContext";
 import Link from "next/link";
-import { useYoutubeApiContext } from "@/context/youtubeApiContext";
+// import { useYoutubeApiContext } from "@/context/youtubeApiContext";
+import { useHandleChannelId } from "@/hooks/useHandleChannelId";
 // import Image from "next/image";
 
 const VideoCard = (data: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
-  const { setProfileId } = useYoutubeApiContext();
+  const { updateChannelId } = useHandleChannelId();
   const item = data?.data || null;
   if (!item || item === null) return;
 
   const handle =
     item?.channelHandle || !item?.channelHandle === undefined
-      ? `/profile/${item?.channelHandle}?channelId=${item?.channelId}`
+      ? `/profile/${item?.channelHandle}`
       : "/not-found";
 
   return (
@@ -36,7 +37,7 @@ const VideoCard = (data: any) => {
           <Link
             className="cursor-pointer"
             href={`${handle}`}
-            onClick={() => setProfileId(item?.channelId)}
+            onClick={() => updateChannelId(item?.channelId)}
             scroll={true}
           >
             <div className="h-12 w-12 overflow-hidden relative flex-shrink-0">
@@ -65,7 +66,7 @@ const VideoCard = (data: any) => {
             <Link
               className="cursor-pointer"
               href={`${handle}`}
-              onClick={() => setProfileId(item?.channelId)}
+              onClick={() => updateChannelId(item?.channelId)}
               scroll={true}
             >
               <p className="text-sm line-clamp-1">{item?.channelTitle}</p>

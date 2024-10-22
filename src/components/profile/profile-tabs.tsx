@@ -8,52 +8,70 @@ const ProfileTabs = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const channelId = searchParams.get("channelId");
 
-  const [activeTab, setActiveTab] = useState("Home");
+  const channelId = useMemo(
+    () => searchParams.get("channelId"),
+    [searchParams]
+  );
 
-  // Memoize tabs to prevent unnecessary recalculations
+  console.log(pathname);
+  const activePath = useMemo(() => pathname.split("/")[3], [pathname]);
+  console.log(activePath);
+
+  const [activeTab, setActiveTab] = useState(activePath || "Home");
+
   const ProfileTabsData = useMemo(
     () => [
-      { name: "Home", path: "" },
-      { name: "Videos", path: "videos" },
-      { name: "Playlist", path: "playlist" },
-      { name: "Shorts", path: "shorts" },
-      { name: "Following", path: "following" },
+      { name: "home", path: "" },
+      { name: "videos", path: "videos" },
+      { name: "playlist", path: "playlist" },
+      { name: "shorts", path: "shorts" },
+      { name: "following", path: "following" },
     ],
     []
   );
 
-  // Set active tab based on the current path
   useEffect(() => {
-    const currentTab = ProfileTabsData.find((tab) =>
-      pathname.includes(tab.path)
-    );
-    if (currentTab) setActiveTab(currentTab.name);
-  }, [pathname, ProfileTabsData]);
+    if (!activePath) {
+      setActiveTab("home"); // Default to "Home" tab if the path is empty
+    } else {
+      setActiveTab(activePath.toLowerCase()); // Set the active tab based on the path
+    }
+  }, [activePath]);
 
-  // Handle tab changes without unnecessary re-renders
   const handleTabClick = (tab: string, path: string) => {
     setActiveTab(tab);
     const newPath = `/profile/${pathname.split("/")[2]}/${path}`;
     const newUrl = channelId ? `${newPath}?channelId=${channelId}` : newPath;
 
-    router.replace(newUrl, undefined, { shallow: true }); // Prevent page reload or API call
+    console.log("Navigating to:", newUrl);
+
+    // Correct usage of shallow routing in Next.js
+    router.replace(newUrl);
   };
 
   return (
     <div className="w-full flex justify-center items-center px-4">
       {ProfileTabsData.map((tab) => (
-        <button
-          key={tab.name}
-          onClick={() => handleTabClick(tab.name, tab.path)}
-          className={cn("w-full py-3 text-center text-[#667085] border-b-2", {
-            "text-main bg-white border-b-main": activeTab === tab.name,
-            "border-b-gray-400": activeTab !== tab.name,
-          })}
-        >
-          {tab.name}
-        </button>
+        <>
+          {console.log(activeTab === tab.name.toLowerCase())}
+          <button
+            key={tab.name}
+            onClick={() => handleTabClick(tab.name, tab.path)}
+            className={cn(
+              "w-full text-sm font-medium sm:text-md sm:font-bold py-3 text-center text-[#667085] border-b-2 capitalize ",
+              {
+                "text-main bg-white border-b-main":
+                  activeTab !== undefined
+                    ? activeTab === tab.name
+                    : "Home" === tab.name,
+                "border-b-gray-400": activeTab !== tab.name.toLowerCase(),
+              }
+            )}
+          >
+            {tab.name}
+          </button>
+        </>
       ))}
     </div>
   );

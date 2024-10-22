@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useHandleChannelId } from "@/hooks/useHandleChannelId";
 import { ApiResponseTypes } from "@/types";
 // import axios from "axios";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -21,10 +22,14 @@ interface YoutubeApiState {
   data: any | null;
   isFetched: boolean;
   isFetching: boolean;
-  fetchChannelDetails: ({ channelId }: { channelId: string }) => Promise<any>;
+  fetchChannelDetails: ({
+    channelId,
+    tab,
+  }: {
+    channelId: string;
+    tab: string;
+  }) => Promise<any>;
   comments: null | undefined;
-  setProfileId: (profileId: string) => void;
-  profileId: string | undefined;
 }
 
 const FetchYoutubeApiContext = createContext<YoutubeApiState | undefined>(
@@ -34,25 +39,26 @@ const FetchYoutubeApiContext = createContext<YoutubeApiState | undefined>(
 const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const searchQuery = useSearchParams().get("search");
   const videoId = useSearchParams().get("v1");
-  const pathname = usePathname().replaceAll("/", "").replace("shorts", "");
+  const pathname = usePathname();
+  const shortsPath = pathname.replaceAll("/", "").replace("shorts", "");
 
   const [data, setData] = useState<ApiResponseTypes[] | null>(null);
   const [comments, setComments] = useState<undefined | null>(null);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(true);
-  const [profileId, setProfileId] = useState<string | undefined>("");
+  // const [chann]
   const API_KEY = process.env.NEXT_PUBLIC_RAPIDAPI_KEY;
   // console.log(API_KEY)
 
   const url = searchQuery
     ? `https://yt-api.p.rapidapi.com/search?query=${searchQuery}`
-    : videoId || pathname
-    ? `https://yt-api.p.rapidapi.com/video/info?id=${videoId || pathname}`
+    : videoId || shortsPath
+    ? `https://yt-api.p.rapidapi.com/video/info?id=${videoId || shortsPath}`
     : "https://yt-api.p.rapidapi.com/home";
 
   const fetchData = async () => {
     setIsFetching(true);
-    if (pathname && pathname.includes("/shorts")) {
+    if (shortsPath && shortsPath.includes("/shorts")) {
       setIsFetching(false);
       return;
     }
@@ -77,21 +83,20 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // fetching channel details
   const fetchChannelDetails = async ({
     channelId,
-    tab,
+    tab = "about",
   }: {
+    tab: string;
     channelId: string;
-    tab?: string;
   }) => {
-    console.log(channelId, tab);
+    console.log(channelId, tab, "is trigred again");
     if (!channelId) return;
     setIsFetching(true);
     try {
       const response = await fetch(
-        `https://yt-api.p.rapidapi.com/channel/${
-          tab || "about"
-        }?id=${channelId}`,
+        `https://yt-api.p.rapidapi.com/channel/${tab}?id=${channelId}`,
         {
           method: "GET",
           headers: {
@@ -110,9 +115,27 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // calling fucntion fetchdata to fetchData from api
   useEffect(() => {
     fetchData();
-  }, [searchQuery, videoId, pathname]);
+  }, [searchQuery, videoId, shortsPath]);
+
+  //removing channelid from localstorage issue fixed
+  const { clearChannelId } = useHandleChannelId();
+  useEffect(() => {
+    const channelId = localStorage.getItem("channelId");
+    console.log(pathname);
+    if (channelId) {
+      if (
+        channelId &&
+        (pathname.startsWith("/profile") || pathname.includes("/profile"))
+      )
+        return;
+
+      clearChannelId();
+    }
+    return;
+  }, [pathname]);
 
   const contextValue = useMemo(
     () => ({
@@ -121,10 +144,8 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
       isFetching,
       fetchChannelDetails,
       comments,
-      setProfileId,
-      profileId,
     }),
-    [data, isFetched, isFetching, comments, profileId]
+    [data, isFetched, isFetching, comments]
   );
 
   return (

@@ -1,24 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-// import { useYoutubeApiContext } from "@/context/youtubeApiContext";
-// import React, { useEffect, useState } from "react";
+import { useYoutubeApiContext } from "@/context/youtubeApiContext";
+import { useHandleChannelId } from "@/hooks/useHandleChannelId";
+import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
-  // const { profileId, fetchChannelDetails } = useYoutubeApiContext();
-  // console.log(profileId)
-  // const [homeContent, setHomeContent] = useState({});
-  // useEffect(() => {
-  //   if (profileId) {
-  //     fetchChannelDetails({
-  //       channelId: `${profileId}`,
-  //       tab: "home",
-  //     })
-  //       .then((data) => setHomeContent(data?.data))
-  //       .catch((err) => console.log(err));
-  //   }
-  // }, [profileId]);
+  const { channelId } = useHandleChannelId();
+  const { fetchChannelDetails } = useYoutubeApiContext();
+  const [homeContent, setHomeContent] = useState({});
+  console.log(homeContent);
+  useEffect(() => {
+    if (channelId) {
+      fetchChannelDetails({
+        channelId: `${channelId}`,
+        tab: "home" as string,
+      })
+        .then((data) => setHomeContent(data?.data))
+        .catch((err) => console.log(err));
+    }
+  }, [channelId]);
 
-  return <div>Home</div>;
+  return <div className="px-4">Home</div>;
 };
 
 export default ProfilePage;
