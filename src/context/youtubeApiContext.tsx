@@ -27,7 +27,7 @@ interface YoutubeApiState {
     tab,
   }: {
     channelId: string;
-    tab: string;
+    tab?: string;
   }) => Promise<any>;
   comments: null | undefined;
 }
@@ -88,7 +88,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     channelId,
     tab = "about",
   }: {
-    tab: string;
+    tab?: string;
     channelId: string;
   }) => {
     console.log(channelId, tab, "is trigred again");
