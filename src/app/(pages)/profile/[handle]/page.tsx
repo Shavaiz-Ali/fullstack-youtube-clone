@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 const ProfilePage = () => {
   const { channelId } = useHandleChannelId();
   const { fetchChannelDetails } = useYoutubeApiContext();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [homeContent, setHomeContent] = useState<
     | [
         {

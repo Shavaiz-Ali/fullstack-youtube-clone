@@ -29,13 +29,11 @@ const HomeCarousel = ({
                 key={video?.videoId}
               >
                 <Link
-                  href={{
-                    pathname: `${
-                      path === "/shorts"
-                        ? `/shorts/${video?.videoId}`
-                        : `/stream?v1=${video.videoId}`
-                    }`,
-                  }}
+                  href={`${
+                    path === "/shorts"
+                      ? `/shorts/${video?.videoId}`
+                      : `/stream?v1=${video.videoId}`
+                  }`}
                 >
                   <Card className="p-0 bg-transparent border-none overflow-hidden rounded-[8px]">
                     <CardContent className="relative flex flex-col aspect-auto gap-y-3 p-0">
