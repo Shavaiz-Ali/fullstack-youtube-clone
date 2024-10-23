@@ -5,10 +5,12 @@
 import { createContext, useContext } from "react";
 import { ReactNode } from "react";
 interface initialState {
-  handleViewsCount: (views: any) => void
+  handleViewsCount: (views: number) => void;
 }
 
-const handleViewsLengthContext = createContext<initialState | undefined>(undefined);
+const handleViewsLengthContext = createContext<initialState | undefined>(
+  undefined
+);
 
 const HandleVideoViewsContextProvider = ({
   children,

@@ -10,14 +10,14 @@ export const metadata: Metadata = {
     "video sharing, upload videos, create channels, video community, discover videos, share content",
   // authors: ["Your Name or Company Name"],
 };
-
+  
 export default function ProfileLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div className="text-white w-full">
+    <div className="w-full">
       <ProfileInfo />
       <ProfileTabs />
       {children}

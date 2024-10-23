@@ -9,9 +9,11 @@ import ShortsListing from "./shorts-listing";
 import Image from "next/image";
 
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useHandleChannelId } from "@/hooks/useHandleChannelId";
 
 const SearchResultsCard = (item: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
+  const { updateChannelId } = useHandleChannelId();
   if (!item || item.length < 1) return;
   const data = item?.item;
   if (data === null) return;
@@ -20,7 +22,7 @@ const SearchResultsCard = (item: any) => {
 
   const handle =
     data?.channelHandle || !data?.channelHandle === undefined
-      ? `/profile/${data?.channelHandle}?channelId=${data?.channelId}`
+      ? `/profile/${data?.channelHandle}`
       : "/not-found";
   return (
     <>
@@ -74,7 +76,11 @@ const SearchResultsCard = (item: any) => {
               </div>
               <div className="flex justify-center items-center  gap-x-3">
                 <div className="md:w-[60px] w-[60px] overflow-hidden relative cursor-pointer">
-                  <Link href={handle} scroll={true}>
+                  <Link
+                    href={handle}
+                    scroll={true}
+                    onClick={() => updateChannelId(data?.channelId)}
+                  >
                     <img
                       className="h-14 w-14 rounded-full object-cover border"
                       src={`${
@@ -85,7 +91,11 @@ const SearchResultsCard = (item: any) => {
                     />
                   </Link>
                 </div>
-                <Link href={handle} scroll={true}>
+                <Link
+                  href={handle}
+                  scroll={true}
+                  onClick={() => updateChannelId(data?.channelId)}
+                >
                   <p className="text-white text-md font-medium">
                     {data?.channelTitle}
                   </p>
