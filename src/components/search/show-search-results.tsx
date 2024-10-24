@@ -13,12 +13,9 @@ const ShowSearchResults = () => {
       {isFetching ? (
         <Loader />
       ) : isFetched && data && data.length > 0 ? (
-        <div className="space-y-8">
+        <div className="space-y-8" key={Math.random()}>
           {data?.map((item: any) => (
-            <SearchResultsCard
-              item={item}
-              key={item?.videoId}
-            />
+            <SearchResultsCard item={item} key={item?.videoId} />
           ))}
         </div>
       ) : (

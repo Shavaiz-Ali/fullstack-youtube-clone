@@ -4,6 +4,7 @@
 
 import Error from "@/components/error";
 import Loader from "@/components/loader";
+import HomeMainVideo from "@/components/profile/home/home-main-video";
 import HomePlaylist from "@/components/profile/home/home-playlist";
 // import HomeMainVideo from "@/components/profile/home/home-main-video";
 import HomeVideos from "@/components/profile/home/home-videos";
@@ -24,7 +25,7 @@ const ProfilePage = () => {
       ]
     | null
   >(null);
-  console.log(homeContent);
+  // console.log(homeContent);
   useEffect(() => {
     if (channelId) {
       fetchChannelDetails({
@@ -51,6 +52,7 @@ const ProfilePage = () => {
           {homeContent && homeContent?.length > 0 ? (
             homeContent?.map((item: any) => (
               <div className="space-y-4" key={Math.random()}>
+                {item?.type === "player" && <HomeMainVideo player={item} />}
                 {item?.type === "video_listing" && item?.title === "Videos" ? (
                   <HomeVideos videos={item} path="/stream" />
                 ) : null}

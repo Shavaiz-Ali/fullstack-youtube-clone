@@ -18,14 +18,14 @@ const HomeCarousel = ({
   path: string;
 }) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
-  console.log(videoDetails);
+  // console.log(videoDetails);
   return (
     <Carousel>
       <CarouselContent className="px-4 space-x-3">
         {videoDetails && videoDetails?.data?.length > 0
           ? videoDetails?.data?.map((video: any) => (
               <CarouselItem
-                className="basis-1/2 sm:basis-1/3 md:basis-1/4 xl:basis-1/6 p-0"
+                className="basis-1/1 sm:basis-1/2 md:basis-1/3 xl:basis-1/4 p-0"
                 key={video?.videoId}
               >
                 <Link
@@ -38,15 +38,15 @@ const HomeCarousel = ({
                   <Card className="p-0 bg-transparent border-none overflow-hidden rounded-[8px]">
                     <CardContent className="relative flex flex-col aspect-auto gap-y-3 p-0">
                       <div className="relative">
-                        <div className="absolute right-3 bottom-1 h-4 w-12 flex justify-center items-center bg-black text-white rounded-[0.5px]">
-                          <span className="text-sm font-normal">
+                        <div className="absolute right-3 bottom-1 h-5 px-3 flex justify-center items-center bg-black text-white rounded-[2px]">
+                          <span className="text-sm font-serif">
                             {video?.lengthText}
                           </span>
                         </div>
                         <img
                           src={`${
                             video?.thumbnail && video?.thumbnail?.length > 0
-                              ? video?.thumbnail[0]?.url
+                              ? video?.thumbnail[3]?.url
                               : null
                           }`}
                           alt=""
@@ -66,12 +66,10 @@ const HomeCarousel = ({
                         </span>
                       </div>
                       <div className="">
-                        <p className="text-gray-300 text-md font-medium">
-                          Name
-                        </p>
                         <div className="flex items-center gap-x-2">
                           <p className="text-sm text-gray-300 font-medium">
-                            {handleViewsCount(Number(video?.viewCount))}
+                            {handleViewsCount(Number(video?.viewCount))}{" "}
+                            <span>Views</span>
                           </p>
                           <div className="h-1 w-1 rounded-full bg-gray-300" />
                           <p className="text-sm text-gray-300 font-medium line-clamp-1">

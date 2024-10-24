@@ -3,7 +3,7 @@ import React from "react";
 import HomeCarousel from "./home-carousel";
 
 const HomePlaylist = ({ playlist }: any) => {
-  console.log(playlist);
+  // console.log(playlist);
   return (
     <div className="py-6 border-b border-b-gray-100/20 w-full">
       <div className="space-y-1 text-white">
