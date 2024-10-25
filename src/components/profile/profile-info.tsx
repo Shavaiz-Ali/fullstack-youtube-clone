@@ -36,7 +36,7 @@ const ProfileInfo = () => {
       .catch((error) => console.log(error));
   }, [channelId]);
 
-  console.log(data);
+  // console.log(data);
 
   // useEffect(() => {
   //   if (data && data.banner && data.banner.length > 0) {

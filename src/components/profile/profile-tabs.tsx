@@ -16,7 +16,7 @@ const ProfileTabs = () => {
 
   console.log(pathname);
   const activePath = useMemo(() => pathname.split("/")[3], [pathname]);
-  console.log(activePath);
+  // console.log(activePath);
 
   const [activeTab, setActiveTab] = useState(activePath || "Home");
 

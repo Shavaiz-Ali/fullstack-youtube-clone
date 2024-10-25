@@ -36,7 +36,7 @@ const ProfileVideos = () => {
       .catch((err) => console.log(err));
   }, [channelId]);
 
-  console.log(videos);
+  // console.log(videos);
 
   return (
     <>
