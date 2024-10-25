@@ -52,7 +52,9 @@ const ProfilePage = () => {
           {homeContent && homeContent?.length > 0 ? (
             homeContent?.map((item: any) => (
               <div className="space-y-4" key={Math.random()}>
-                {item?.type === "player" && <HomeMainVideo player={item} />}
+                <div className="">
+                  {item?.type === "player" && <HomeMainVideo player={item} />}
+                </div>
                 {item?.type === "video_listing" && item?.title === "Videos" ? (
                   <HomeVideos videos={item} path="/stream" />
                 ) : null}

@@ -37,9 +37,9 @@ const HomeMainVideo = ({ player }: any) => {
   // }, [player?.videoId]);
 
   return (
-    <div className="hidden sm:block w-full py-6 border-b border-b-white">
+    <div className="w-full py-6 border-b border-b-white">
       <Card className="p-0 bg-transparent overflow-hidden border-0">
-        <CardContent className="flex items-start gap-x-4 w-full p-0 h-full">
+        <CardContent className="flex flex-col sm:flex-row  items-start gap-4 w-full p-0 h-full">
           <div className="rounded-[8px] overflow-hidden  h-[280px] xl:w-[500px] w-full border border-gray-100/20">
             <ReactPlayer
               url={`https://www.youtube.com/watch?v=${player?.videoId}`}
@@ -51,18 +51,20 @@ const HomeMainVideo = ({ player }: any) => {
             />
           </div>
           <div className="space-y-3 text-white  w-full lg:w-[70%]">
-            <p className="text-md font-medium line-clamp-2">{player?.title}</p>
+            <p className="md:text-md text-sm font-medium line-clamp-2">
+              {player?.title}
+            </p>
             <div className="flex items-center gap-x-2">
-              <p className="text-md text-gray-300 font-medium">
+              <p className="md:text-md text-sm text-gray-300 font-medium">
                 {handleViewsCount(Number(player?.viewCount))} <span>Views</span>
               </p>
               <div className="h-1 w-1 rounded-full bg-gray-300" />
-              <p className="text-md text-gray-300 font-medium line-clamp-1">
+              <p className="md:text-md text-sm text-gray-300 font-medium line-clamp-1">
                 {player?.publishedTimeText}
               </p>
             </div>
             <div className="w-full">
-              <p className="text-md font-medium line-clamp-5">
+              <p className="md:text-md text-sm font-medium line-clamp-5">
                 {player?.description}
               </p>
               <button className="cursor-pointer text-gray-400">

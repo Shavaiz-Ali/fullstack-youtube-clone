@@ -16,7 +16,6 @@ import { FaUserPlus } from "react-icons/fa6";
 const ProfileInfo = () => {
   const { channelId } = useHandleChannelId();
   const { isFetching, isFetched, fetchChannelDetails } = useYoutubeApiContext();
-
   console.log(channelId);
 
   const [data, setData] = useState<null | {
@@ -39,6 +38,34 @@ const ProfileInfo = () => {
 
   console.log(data);
 
+  // useEffect(() => {
+  //   if (data && data.banner && data.banner.length > 0) {
+  //     const checkScreenWidth = () => {
+  //       if (window.innerWidth >= 1024) {
+  //         setBannerImage(data.banner[5]?.url);
+  //       } else if (window.innerWidth >= 768) {
+  //         setBannerImage(data.banner[4]?.url);
+  //       } else if (window.innerWidth >= 640) {
+  //         setBannerImage(data.banner[3]?.url);
+  //       } else if (window.innerWidth >= 480) {
+  //         setBannerImage(data.banner[2]?.url);
+  //       } else {
+  //         setBannerImage(data.banner[1]?.url);
+  //       }
+  //     };
+
+  //     checkScreenWidth(); // Call initially to set the correct banner based on current width
+
+  //     window.addEventListener("resize", checkScreenWidth);
+
+  //     return () => {
+  //       window.removeEventListener("resize", checkScreenWidth);
+  //     };
+  //   }
+  // }, [data]);
+
+  // console.log("banner image", bannerImage);
+
   return (
     <>
       {isFetching ? (
@@ -48,16 +75,19 @@ const ProfileInfo = () => {
       ) : (
         <>
           {data && data.code !== "403" && isFetched ? (
-            <div className="p-0 w-full">
+            <div className="p-4 w-full">
               <div
-                className={cn("min-h-[240px] w-full bg-cover bg-center", {
-                  "bg-gradient-to-r from-pink-500 via-orange-300 to-cyan-400":
-                    !data?.banner || data?.banner?.length === 0,
-                })}
+                className={cn(
+                  "min-h-[240px] w-full bg-cover bg-center object-cover overflow-hidden rounded-[20px] shrink-0",
+                  {
+                    "bg-gradient-to-r from-pink-500 via-orange-300 to-cyan-400":
+                      !data?.banner || data?.banner?.length < 1,
+                  }
+                )}
                 style={{
                   backgroundImage: `url(${
                     data?.banner && data.banner?.length > 0
-                      ? data.banner[0].url
+                      ? data?.banner[5].url
                       : null
                   })`,
                 }}

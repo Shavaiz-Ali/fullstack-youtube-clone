@@ -1,3 +1,4 @@
+import ProfileVideos from "@/components/profile/videos/profile-videos";
 import { Button } from "@/components/ui/button";
 
 const Videos = () => {
@@ -14,6 +15,7 @@ const Videos = () => {
           Oldest
         </Button>
       </div>
+      <ProfileVideos />
     </div>
   );
 };
