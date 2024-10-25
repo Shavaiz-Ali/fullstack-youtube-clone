@@ -110,29 +110,33 @@ const SearchResultsCard = (item: any) => {
           </CardContent>
         </Card>
       ) : (
-        <div className="border-t border-b py-6 w-full">
-          <div className="flex justify-between items-center w-full mb-6">
-            <div className="flex justify-center items-center gap-x-1">
-              <Image
-                src={"/images/logo.png"}
-                alt="logo"
-                height={40}
-                width={40}
-              />
-              <p className="text-md font-medium text-white">Shorts</p>
+        <>
+          {data?.type === "shorts_listing" && data?.data?.length > 0 ? (
+            <div className="border-t border-b py-6 w-full">
+              <div className="flex justify-between items-center w-full mb-6">
+                <div className="flex justify-center items-center gap-x-1">
+                  <Image
+                    src={"/images/logo.png"}
+                    alt="logo"
+                    height={40}
+                    width={40}
+                  />
+                  <p className="text-md font-medium text-white">Shorts</p>
+                </div>
+                <BsThreeDotsVertical />
+              </div>
+              <Carousel className="w-full">
+                <CarouselContent className="px-4 space-x-4">
+                  {data?.type === "shorts_listing" && data?.data?.length > 0
+                    ? data?.data.map((short: any) => (
+                        <ShortsListing shorts={short} key={short?.videoId} />
+                      ))
+                    : null}
+                </CarouselContent>
+              </Carousel>
             </div>
-            <BsThreeDotsVertical />
-          </div>
-          <Carousel className="w-full">
-            <CarouselContent className="px-4 space-x-4">
-              {data?.type === "shorts_listing" && data?.data?.length > 0
-                ? data?.data.map((short: any) => (
-                    <ShortsListing shorts={short} key={short?.videoId} />
-                  ))
-                : null}
-            </CarouselContent>
-          </Carousel>
-        </div>
+          ) : null}
+        </>
       )}
     </>
   );
