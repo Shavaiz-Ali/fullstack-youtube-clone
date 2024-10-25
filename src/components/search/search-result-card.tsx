@@ -18,7 +18,7 @@ const SearchResultsCard = (item: any) => {
   const data = item?.item;
   if (data === null) return;
 
-  console.log(data);
+  // console.log(data);
 
   const handle =
     data?.channelHandle || !data?.channelHandle === undefined

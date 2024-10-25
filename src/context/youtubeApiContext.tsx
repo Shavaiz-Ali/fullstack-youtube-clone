@@ -72,7 +72,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
       });
 
       const results = await response.json();
-      console.log(results);
+      // console.log(results);
       const endResults = results?.data ? results?.data : results;
       setIsFetching(false);
       setIsFetched(true);
@@ -91,7 +91,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
     tab?: string;
     channelId: string;
   }) => {
-    console.log(channelId, tab, "is trigred again");
+    // console.log(channelId, tab, "is trigred again");
     if (!channelId) return;
     setIsFetching(true);
     try {
@@ -124,7 +124,7 @@ const YoutubeApiContextProvider = ({ children }: { children: ReactNode }) => {
   const { clearChannelId } = useHandleChannelId();
   useEffect(() => {
     const channelId = localStorage.getItem("channelId");
-    console.log(pathname);
+    // console.log(pathname);
     if (channelId) {
       if (
         channelId &&
