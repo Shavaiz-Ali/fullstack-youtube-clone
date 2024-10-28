@@ -4,6 +4,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Card, CardContent } from "@/components/ui/card";
 import { useHandleVideoViewsCountContext } from "@/context/handleViewsContext";
+import Image from "next/image";
 
 const ProfileVideoCard = ({ video }: any) => {
   const { handleViewsCount }: any = useHandleVideoViewsCountContext();
@@ -15,7 +16,7 @@ const ProfileVideoCard = ({ video }: any) => {
           <div className="absolute right-3 bottom-1 h-5 px-3 flex justify-center items-center bg-black text-white rounded-[2px]">
             <span className="text-sm font-serif">{video?.lengthText}</span>
           </div>
-          <img
+          {/* <img
             src={`${
               video?.thumbnail && video?.thumbnail?.length > 0
                 ? video?.thumbnail[3]?.url
@@ -23,6 +24,18 @@ const ProfileVideoCard = ({ video }: any) => {
             }`}
             alt=""
             className="w-full h-full object-cover rounded-[8px]"
+          /> */}
+          <Image
+            src={`${
+              video?.thumbnail && video?.thumbnail?.length > 0
+                ? video?.thumbnail[3]?.url
+                : null
+            }`}
+            alt=""
+            className="w-full h-full object-cover rounded-[8px]"
+            sizes="100%"
+            height={300}
+            width={500}
           />
         </div>
         <div className="flex justify-between gap-x-2 w-full">

@@ -6,6 +6,7 @@ import { useHandleVideoViewsCountContext } from "@/context/handleViewsContext";
 import Link from "next/link";
 // import { useYoutubeApiContext } from "@/context/youtubeApiContext";
 import { useHandleChannelId } from "@/hooks/useHandleChannelId";
+import Image from "next/image";
 // import Image from "next/image";
 
 const VideoCard = (data: any) => {
@@ -24,10 +25,12 @@ const VideoCard = (data: any) => {
       <CardHeader className="relative p-0 w-full cursor-pointer">
         <Link href={`/stream?v1=${item?.videoId}`} scroll={true}>
           {item?.thumbnail || item?.thumbnail?.length > 0 ? (
-            <img
-              className="rounded"
+            <Image
               src={`${item?.thumbnail[1]?.url || item?.thumbnail[1]?.url}`}
               alt=""
+              height={500}
+              width={500}
+              className="rounded-[8px]"
             />
           ) : null}
         </Link>
