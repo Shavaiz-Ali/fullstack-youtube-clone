@@ -26,7 +26,11 @@ const VideoCard = (data: any) => {
         <Link href={`/stream?v1=${item?.videoId}`} scroll={true}>
           {item?.thumbnail || item?.thumbnail?.length > 0 ? (
             <Image
-              src={`${item?.thumbnail[1]?.url || item?.thumbnail[1]?.url}`}
+              src={`${
+                item?.thumbnail[1]?.url !== undefined
+                  ? item?.thumbnail[1].url
+                  : item?.thumbnail[0].url
+              }`}
               alt=""
               height={500}
               width={500}

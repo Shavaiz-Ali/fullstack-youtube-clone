@@ -10,7 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        xs: "450px", // Custom extra small breakpoint
+        xxl: "1800px",
+        xs: "450px",
       },
       boxShadow: {
         custom: "#ffffff", // Your custom box-shadow
