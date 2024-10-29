@@ -16,7 +16,7 @@ import { FaUserPlus } from "react-icons/fa6";
 const ProfileInfo = () => {
   const { channelId } = useHandleChannelId();
   const { isFetching, isFetched, fetchChannelDetails } = useYoutubeApiContext();
-  console.log(channelId);
+  // console.log(channelId);
 
   const [data, setData] = useState<null | {
     avatar: { url: string }[];

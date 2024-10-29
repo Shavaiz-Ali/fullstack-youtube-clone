@@ -3,7 +3,7 @@
 
 import Error from "@/components/error";
 import Loader from "@/components/loader";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useYoutubeApiContext } from "@/context/youtubeApiContext";
 import { useHandleChannelId } from "@/hooks/useHandleChannelId";
 import Image from "next/image";
@@ -14,7 +14,15 @@ import { HiDotsVertical } from "react-icons/hi";
 const ProfileShorts = () => {
   const { isFetched, isFetching, fetchChannelDetails } = useYoutubeApiContext();
   const { channelId } = useHandleChannelId();
-  const [shorts, setShorts] = useState<[] | null>(null);
+  const [shorts, setShorts] = useState<{
+    data: {
+      videoId: string;
+      thumbnail: { url: string }[];
+      title: string;
+      viewCount: string;
+      viewCountText: string;
+    }[];
+  } | null>(null);
 
   useEffect(() => {
     fetchChannelDetails({
@@ -24,7 +32,7 @@ const ProfileShorts = () => {
       .then((data) => setShorts(data))
       .catch((error) => console.log(error));
   }, [channelId]);
-  console.log(shorts);
+  // console.log(shorts);
   return (
     <div className="w-full">
       {isFetching ? (

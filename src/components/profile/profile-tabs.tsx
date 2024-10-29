@@ -44,7 +44,7 @@ const ProfileTabs = () => {
     const newPath = `/profile/${pathname.split("/")[2]}/${path}`;
     const newUrl = channelId ? `${newPath}?channelId=${channelId}` : newPath;
 
-    console.log("Navigating to:", newUrl);
+    // console.log("Navigating to:", newUrl);
 
     // Correct usage of shallow routing in Next.js
     router.replace(newUrl);

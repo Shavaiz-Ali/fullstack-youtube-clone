@@ -32,7 +32,7 @@ const Playlist = () => {
       .catch((err) => console.log(err));
   }, [channelId]);
 
-  console.log(playlistData);
+  // console.log(playlistData);
   return (
     <div className="p-4 w-full">
       {isFetching ? (
