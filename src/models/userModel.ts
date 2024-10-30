@@ -19,21 +19,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-    required: false,
-  },
-  coverImage: {
-    type: String,
+  channel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Channel",
     required: false,
   },
   watchHistory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Videos",
-    required: false,
-  },
-  playlists: {
-    type: [String],
     required: false,
   },
   refreshToken: {

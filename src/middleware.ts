@@ -7,16 +7,24 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
-
+  console.log(pathname);
   const isAuthRoute =
     pathname.startsWith("/auth/login") || pathname.startsWith("/auth/register");
 
-    // if()
+  // if()
+
+  //
   try {
     // If no tokens and accessing a protected route, redirect to login
-    if (!accessToken && (pathname.startsWith("/profile") || pathname.includes("/profile"))) {
-      return NextResponse.redirect(new URL("/auth/login", req.url));
-    }
+    // if (
+    //   !accessToken &&
+    //   (pathname.startsWith("/dashboard") ||
+    //     pathname.includes("/dashboard") ||
+    //     pathname.startsWith("/profile") ||
+    //     pathname.includes("/profile"))
+    // ) {
+    //   return NextResponse.redirect(new URL("/auth/login", req.url));
+    // }
 
     // If no tokens and accessing auth routes, allow
     if (!accessToken && !refreshToken && isAuthRoute) {

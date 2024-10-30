@@ -8,12 +8,12 @@ import { HandleVideoViewsContextProvider } from "@/context/handleViewsContext";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
 
-
 export const metadata: Metadata = {
   title: "Play - Discover, Upload, and Share Your Videos",
   description:
     "Join Play, a dynamic platform that empowers users to create channels, engage with a vibrant community, and explore a vast library of content. Unleash your creativity and connect with others through the power of video.",
-  keywords: "video sharing, upload videos, create channels, video community, discover videos, share content",
+  keywords:
+    "video sharing, upload videos, create channels, video community, discover videos, share content",
   // authors: ["Your Name or Company Name"],
   viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
@@ -41,7 +41,6 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -50,22 +49,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Suspense fallback={<Loader />}>
-        <AuthProvider>
-          <YoutubeApiContextProvider>
-            <Header />
-            <div className="flex w-full">
-              <Sidebar />
-              <div className="w-full overflow-x-hidden">
-                <HandleVideoViewsContextProvider>
-                  {children}
-                </HandleVideoViewsContextProvider>
+          <AuthProvider>
+            <YoutubeApiContextProvider>
+              <Header />
+              <div className="flex w-full h-full">
+                <Sidebar />
+                <div className="w-full h-full overflow-x-hidden">
+                  <HandleVideoViewsContextProvider>
+                    {children}
+                  </HandleVideoViewsContextProvider>
+                </div>
               </div>
-            </div>
-          </YoutubeApiContextProvider>
-        </AuthProvider>
+            </YoutubeApiContextProvider>
+          </AuthProvider>
         </Suspense>
       </body>
     </html>

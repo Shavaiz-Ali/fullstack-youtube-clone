@@ -16,7 +16,9 @@ const Header = () => {
   if (
     pathname.startsWith("/auth") ||
     pathname.includes("/auth/login") ||
-    pathname.includes("/auth/register")
+    pathname.includes("/auth/register") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.includes("/dashboard")
   ) {
     return null;
   }
