@@ -16,15 +16,15 @@ export async function middleware(req: NextRequest) {
   //
   try {
     // If no tokens and accessing a protected route, redirect to login
-    // if (
-    //   !accessToken &&
-    //   (pathname.startsWith("/dashboard") ||
-    //     pathname.includes("/dashboard") ||
-    //     pathname.startsWith("/profile") ||
-    //     pathname.includes("/profile"))
-    // ) {
-    //   return NextResponse.redirect(new URL("/auth/login", req.url));
-    // }
+    if (
+      !accessToken &&
+      (pathname.startsWith("/dashboard") ||
+        pathname.includes("/dashboard") ||
+        pathname.startsWith("/profile") ||
+        pathname.includes("/profile"))
+    ) {
+      return NextResponse.redirect(new URL("/auth/login", req.url));
+    }
 
     // If no tokens and accessing auth routes, allow
     if (!accessToken && !refreshToken && isAuthRoute) {

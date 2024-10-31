@@ -13,7 +13,7 @@ const REFRESH_TOKEN_SECRET =
 // Token generation function
 const generateAccessToken = (userId: string) => {
   return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "1hr",
     algorithm: "HS256", // Changed 'algorithms' to 'algorithm'
   });
 };

@@ -30,7 +30,7 @@ const Sidebar = () => {
   return (
     <div
       className={cn(
-        "lg:min-w-[280px] min-w-full h-screen lg:static fixed top-0 -left-[200%]  lg:bg-transparent bg-black/[0.50] z-[999999] transition-all ease-in duration-300",
+        "lg:min-w-[280px] min-w-full h-screen lg:static fixed top-0 -left-[200%]  lg:bg-transparent bg-black/[0.50] lg:z-0 z-[50] transition-all ease-in duration-300",
         {
           "-left-[0%]": sidebarState,
           "!min-w-[91px]": pathname.includes("/stream"),

@@ -6,6 +6,10 @@ const channelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    channelHandle: {
+      type: String,
+      required: true,
+    },
     subscribers: {
       type: Number,
       required: false,

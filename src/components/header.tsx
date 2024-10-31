@@ -24,7 +24,7 @@ const Header = () => {
   }
   return (
     <div className="min-h-[90px]">
-      <div className="w-full border-b border-white bg-black fixed top-0 left-0 z-[999999]">
+      <div className="w-full border-b border-white bg-black fixed top-0 left-0 z-[49]">
         <div className="lg:max-w-[1400.43px] mx-auto p-5 lg:px-4  flex justify-between items-center w-full">
           <Logo height={54} width={54} imgHeight={40} imgWidth={40} />
           <SearchBox
