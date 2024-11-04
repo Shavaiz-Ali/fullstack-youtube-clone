@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 // import axios from "axios";
 import axiosClient from "@/config";
 import { useState } from "react";
+import { useChannelContext } from "@/context/channelContext";
+import Image from "next/image";
 
 const CreateChannelPopUp = ({
   openCreateChannelPopUp,
@@ -23,32 +26,45 @@ const CreateChannelPopUp = ({
   openCreateChannelPopUp: boolean;
   setOpenCreateChannelPopUp: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const {
+    isLoading,
+    avatar,
+    coverImage,
+    uploadAvatarToCloudinary,
+    uploadCoverImageToCloudinary,
+    createChannel,
+  } = useChannelContext();
   const [file, setFile] = useState<any | null>(null);
   // const [coverImageFile, setCoverImageFile] = useState<any | null>(null);
   // const [cov]
-  const [avatar, setAvatar] = useState<string | null>(null);
-  console.log(file);
+  // const [avatar, setAvatar] = useState<string | null>(null);
+  // console.log(file);
+
+  console.log(avatar, coverImage);
+
+  const [channelData, setChannelData] = useState({
+    channelName: "",
+    channelHandle: "",
+    avatar: avatar !== null ? avatar : "",
+    coverImage: coverImage !== null ? coverImage : "",
+  });
 
   const uploadImageToCloudinary = async () => {
     if (!file) {
       throw new Error("No file selected");
     }
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await axiosClient.post(
-        "/api/cloudinary/image",
-        formData
-      );
+      const response = await uploadAvatarToCloudinary(file);
       console.log(response);
-      setAvatar(response?.data?.url);
     } catch (error) {
       throw new Error("Failed to upload image to Cloudinary", error as any);
     }
   };
 
   console.log(avatar);
+  console.log(coverImage);
+
+  console.log(channelData);
   return (
     <Dialog
       open={openCreateChannelPopUp}
@@ -91,54 +107,84 @@ const CreateChannelPopUp = ({
         </div>
         <div className="grid gap-4 py-4">
           <div className="flex flex-col gap-y-2 text-white gap-4">
-            <Label htmlFor="name" className="text-left">
+            <Label htmlFor="channelName" className="text-left">
               Channel name
             </Label>
             <Input
-              id="name"
+              id="channelName"
               defaultValue="Pedro Duarte"
               className="col-span-3"
+              value={channelData.channelName}
+              onChange={(e) =>
+                setChannelData({
+                  ...channelData,
+                  channelName: e.target.value,
+                })
+              }
             />
           </div>
           <div className="flex flex-col gap-y-2 text-white gap-4">
-            <Label htmlFor="username" className="text-left">
+            <Label htmlFor="channelHandle" className="text-left">
               Channel handle
             </Label>
             <Input
-              id="username"
+              id="channelHandle"
               defaultValue="@peduarte"
               className="col-span-3"
+              value={channelData.channelHandle}
+              onChange={(e) =>
+                setChannelData({
+                  ...channelData,
+                  channelHandle: e.target.value,
+                })
+              }
             />
           </div>
           <div className="text-white">
             <Label htmlFor="thumbnail" className="">
               Cover image (optional)
             </Label>
-            <div className="relative flex border border-white p-1  h-[40px] rounded-md w-full curor-pointer">
-              <div
-                id="thumbnail"
-                className="w-full h-full flex gap-x-1 justify-start items-center text-white text-sm font-semibold"
-              >
-                <div className="h-full w-[104px] flex justify-center items-center bg-main text-[12px] font-semibold text-black">
-                  <span>Choose File</span>
-                </div>
-                No file selected
+            {coverImage ? (
+              <div className="relative w-full max-h-[300px]">
+                <Image
+                  src={`${coverImage}`}
+                  alt="cover image"
+                  className="object-cover w-full h-full"
+                  height={500}
+                  width={500}
+                />
               </div>
-              <Input
-                className="border-0 absolute z-[999999] left-0 top-0 opacity-0 w-full h-full cursor-pointer"
-                type="file"
-                id="thumbnail"
-                name="thumbnail"
-              />
-            </div>
+            ) : (
+              <div className="relative flex border border-white p-1  h-[40px] rounded-md w-full curor-pointer">
+                <div
+                  id="thumbnail"
+                  className="w-full h-full flex gap-x-1 justify-start items-center text-white text-sm font-semibold"
+                >
+                  <div className="h-full w-[104px] flex justify-center items-center bg-main text-[12px] font-semibold text-black">
+                    <span>Choose File</span>
+                  </div>
+                  No file selected
+                </div>
+                <Input
+                  className="border-0 absolute z-[999999] left-0 top-0 opacity-0 w-full h-full cursor-pointer"
+                  type="file"
+                  id="thumbnail"
+                  name="thumbnail"
+                  onChange={(e) =>
+                    uploadCoverImageToCloudinary(e.target.files?.[0])
+                  }
+                />
+              </div>
+            )}
           </div>
         </div>
         <DialogFooter>
           <Button
             className=" bg-main hover:bg-main/90 cursor-pointer"
-            type="submit"
+            type="button"
+            onClick={() => createChannel(channelData)}
           >
-            Save
+            {isLoading ? "Loading..." : "Create channel"}
           </Button>
         </DialogFooter>
       </DialogContent>

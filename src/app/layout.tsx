@@ -7,6 +7,7 @@ import { YoutubeApiContextProvider } from "@/context/youtubeApiContext";
 import { HandleVideoViewsContextProvider } from "@/context/handleViewsContext";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
+import { ChannelContextProvider } from "@/context/channelContext";
 
 export const metadata: Metadata = {
   title: "Play - Discover, Upload, and Share Your Videos",
@@ -54,15 +55,17 @@ export default function RootLayout({
         <Suspense fallback={<Loader />}>
           <AuthProvider>
             <YoutubeApiContextProvider>
-              <Header />
-              <div className="flex w-full h-full">
-                <Sidebar />
-                <div className="w-full h-full overflow-x-hidden">
-                  <HandleVideoViewsContextProvider>
-                    {children}
-                  </HandleVideoViewsContextProvider>
+              <ChannelContextProvider>
+                <Header />
+                <div className="flex w-full h-full">
+                  <Sidebar />
+                  <div className="w-full h-full overflow-x-hidden">
+                    <HandleVideoViewsContextProvider>
+                      {children}
+                    </HandleVideoViewsContextProvider>
+                  </div>
                 </div>
-              </div>
+              </ChannelContextProvider>
             </YoutubeApiContextProvider>
           </AuthProvider>
         </Suspense>

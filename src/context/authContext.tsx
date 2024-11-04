@@ -142,7 +142,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const userDetails = async () => {
     try {
       const response = await axiosClient.get("/api/auth/me");
-      if(response.status === 200){
+      console.log(response);
+      if (response.status === 200) {
         dispatch({ type: "SET_USER", payload: response.data.user });
       }
     } catch (error) {
