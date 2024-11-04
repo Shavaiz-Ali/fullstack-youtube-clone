@@ -37,7 +37,9 @@ export async function GET(req: NextRequest) {
     console.log("User ID:", userId);
 
     // Find user by ID, populate the channel field, and exclude sensitive fields
-    const user = await User.findById(userId).select("-password -refreshToken");
+    const user = await User.findById(userId)
+      .select("-password -refreshToken")
+      .populate("channel");
 
     if (!user) {
       return NextResponse.json(

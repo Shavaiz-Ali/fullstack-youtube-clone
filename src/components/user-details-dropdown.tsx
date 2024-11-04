@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 // import CreateChannelPopUp from "./create-channel-pop-up";
 
 const UserDetailsDropdown = ({
@@ -29,6 +30,7 @@ const UserDetailsDropdown = ({
   user: any;
 }) => {
   console.log(user);
+  const router = useRouter();
   return (
     <>
       <DropdownMenu
@@ -60,10 +62,14 @@ const UserDetailsDropdown = ({
           <DropdownMenuGroup>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => setOpenCreateChannelPopUp(true)}
+              onClick={() => {
+                return user && user?.channel
+                  ? router.push(`/profile/${user?.channel?.channelHandle}`)
+                  : setOpenCreateChannelPopUp(true);
+              }}
             >
               <User />
-              <span>Create channel</span>
+              <span>{user?.channel ? "Your channel" : " Create channel"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <MdOutlineDashboard />

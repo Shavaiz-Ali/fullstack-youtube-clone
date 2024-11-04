@@ -13,13 +13,13 @@ const AuthButtons = () => {
   return (
     <>
       <div className="flex justify-center items-center gap-x-7">
-        {isAuthenticated && user ? (
+        {isAuthenticated && user && user?.channel ? (
           <>
             <Link
-              href="/auth/login"
-              className="text-white text-[16px] font-semibold leading-6 font-serif"
+              href={`/dashboard/${user?.channel?._id}/upload-video`}
+              className="relative bg-main px-4 py-[8px] text-[16px] shadow-[6px_6px_0px_0px_rgba(56,51,63,1)] font-semibold leading-6 font-serif"
             >
-              Logout
+              Upload Video
             </Link>
             <div
               className="relative h-9 w-9 rounded-full bg-main text-white text-md font-semibold flex justify-center items-center cursor-pointer"
@@ -30,7 +30,11 @@ const AuthButtons = () => {
               <Avatar className="w-full h-full absolute top-0 left-0">
                 <AvatarImage
                   className="w-full h-full object-cover"
-                  src="https://github.com/shadcn.png"
+                  src={`${
+                    user?.channel && user?.channel?.avatar.trim() !== ""
+                      ? user?.channel?.avatar
+                      : "https://github.com/shadcn.png"
+                  }`}
                   alt="@shadcn"
                 />
                 <AvatarFallback>CN</AvatarFallback>

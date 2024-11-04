@@ -18,11 +18,20 @@ export async function POST(
 
     console.log(userId);
 
+    if (!userId) {
+      return NextResponse.json(
+        {
+          message: "Unauthorize access!",
+        },
+        { status: 400 }
+      );
+    }
+
     // Destructure channelData for easier access
     const { channelName, channelHandle, avatar, coverImage } = channelData;
 
     // Validate required fields
-    if (!channelName || !channelHandle || !userId) {
+    if (!channelName || !channelHandle) {
       return NextResponse.json({
         status: 400,
         message: "Fill all required fields!",
@@ -57,7 +66,7 @@ export async function POST(
       userId,
       { channel: channel._id },
       { new: true }
-    ).populate("channel");
+    );
 
     // await updatedUser.save();
 
@@ -93,6 +102,7 @@ export async function POST(
       {
         message: "Channel Created Successfully",
         channel: channel,
+        updatedUser,
       },
       { status: 201 }
     );

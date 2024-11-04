@@ -1,9 +1,14 @@
+"use client";
+
 import React from "react";
 import { FaDownload } from "react-icons/fa6";
 // import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { useChannelContext } from "@/context/channelContext";
+import Image from "next/image";
 const UploadVideoDetails = () => {
+  const { uploadCoverImageToCloudinary, coverImage } = useChannelContext();
   return (
     <div className="space-y-[30px] w-full py-[30px]">
       <div className="w-full h-[280px] xs:h-[388px] border-2 border-dashed border-white flex flex-col justify-center items-center xs:gap-y-3 gap-y-1">
@@ -20,14 +25,21 @@ const UploadVideoDetails = () => {
         </div>
         {/* upload button  */}
         <form action="" className="mt-3">
-          <Label
-            id="file"
-            htmlFor="file"
-            className="relative rounded-none text-black bg-main px-[32px] py-[16px] text-[16px] shadow-[6px_6px_0px_0px_rgba(56,51,63,1)] font-semibold leading-6 font-serif hover:bg-main"
-          >
-            Select Files
-          </Label>
-          <Input type="file" id="file" name="file" className="hidden" />
+          <div className="relative cursor-pointer">
+            <Label
+              id="file"
+              htmlFor="file"
+              className="relative rounded-none text-black bg-main px-[32px] py-[16px] text-[16px] shadow-[6px_6px_0px_0px_rgba(56,51,63,1)] font-semibold leading-6 font-serif hover:bg-main"
+            >
+              Select Files
+            </Label>
+            <Input
+              type="file"
+              id="file"
+              name="file"
+              className="absolute -top-1/2 left-0 w-full py-[32px] cursor-pointer opacity-0"
+            />
+          </div>
         </form>
       </div>
       <form action="" className="space-y-[32px]">
@@ -38,23 +50,37 @@ const UploadVideoDetails = () => {
           >
             Thumbnail <sup>*</sup>
           </Label>
-          <div className="relative flex border border-white p-0.5 h-[44px] w-full curor-pointer">
-            <div
-              id="thumbnail"
-              className="w-full h-full flex gap-x-1 justify-start items-center text-white text-sm font-semibold"
-            >
-              <div className="h-full w-[104px] flex justify-center items-center bg-main text-[12px] font-semibold text-black">
-                <span>Choose File</span>
-              </div>
-              No file selected
+          {coverImage ? (
+            <div className="relative w-full mx-auto ">
+              <Image
+                src={coverImage}
+                alt="thumbnial"
+                height={150}
+                width={500}
+              />
             </div>
-            <Input
-              className="border-0 absolute z-[999999] left-0 top-0 opacity-0 w-full h-full cursor-pointer"
-              type="file"
-              id="thumbnail"
-              name="thumbnail"
-            />
-          </div>
+          ) : (
+            <div className="relative flex border border-white p-0.5 h-[44px] w-full curor-pointer">
+              <div
+                id="thumbnail"
+                className="w-full h-full flex gap-x-1 justify-start items-center text-white text-sm font-semibold"
+              >
+                <div className="h-full w-[104px] flex justify-center items-center bg-main text-[12px] font-semibold text-black">
+                  <span>Choose File</span>
+                </div>
+                No file selected
+              </div>
+              <Input
+                className="border-0 absolute z-[999999] left-0 top-0 opacity-0 w-full h-full cursor-pointer"
+                type="file"
+                id="thumbnail"
+                name="thumbnail"
+                onChange={(e) =>
+                  uploadCoverImageToCloudinary(e?.target?.files?.[0])
+                }
+              />
+            </div>
+          )}
         </div>
 
         <div className="">

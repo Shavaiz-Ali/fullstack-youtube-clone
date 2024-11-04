@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       (resolve, reject) => {
         const upload_stream = cloudinary.uploader.upload_stream(
           {
+            resource_type: "image",
             folder: "playzy-images",
           },
           (error: any, result: any) => {

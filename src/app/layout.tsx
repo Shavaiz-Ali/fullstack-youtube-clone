@@ -8,7 +8,7 @@ import { HandleVideoViewsContextProvider } from "@/context/handleViewsContext";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
 import { ChannelContextProvider } from "@/context/channelContext";
-
+import NextTopLoader from "nextjs-toploader";
 export const metadata: Metadata = {
   title: "Play - Discover, Upload, and Share Your Videos",
   description:
@@ -61,6 +61,7 @@ export default function RootLayout({
                   <Sidebar />
                   <div className="w-full h-full overflow-x-hidden">
                     <HandleVideoViewsContextProvider>
+                      <NextTopLoader color="#AE7AFF" />
                       {children}
                     </HandleVideoViewsContextProvider>
                   </div>
