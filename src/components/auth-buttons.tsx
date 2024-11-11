@@ -13,7 +13,7 @@ const AuthButtons = () => {
   return (
     <>
       <div className="flex justify-center items-center gap-x-7">
-        {isAuthenticated && user && user?.channel ? (
+        {isAuthenticated && user ? (
           <>
             <Link
               href={`/dashboard/${user?.channel?._id}/upload-video`}
